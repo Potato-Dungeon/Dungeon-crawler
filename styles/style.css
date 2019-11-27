@@ -1,0 +1,9 @@
+*{
+    box-sizing: border-box;
+}
+
+.grid-layout {
+    display: flex;
+    flex-basis: 64px;
+    flex-wrap: wrap;
+}
