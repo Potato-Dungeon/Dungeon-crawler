@@ -1,0 +1,14 @@
+*{
+    box-sizing: border-box;
+}
+
+.grid-layout {
+    display: flex;
+    flex-basis: 60vw;
+    flex-wrap: wrap;
+}
+
+.tile {
+    width: 64px;
+    height: 64px;
+}
