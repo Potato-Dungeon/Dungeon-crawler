@@ -4,6 +4,11 @@
 
 .grid-layout {
     display: flex;
-    flex-basis: 64px;
+    flex-basis: 60vw;
     flex-wrap: wrap;
+}
+
+.tile {
+    width: 64px;
+    height: 64px;
 }

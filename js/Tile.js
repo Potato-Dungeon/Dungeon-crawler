@@ -1,13 +1,21 @@
 export default {
     template: `
-        <div>
+        <span ref="tile" class="tile" @click="logPosition">
             <img src="/assets/temptxt.png" width="64px">
-        </div>
+        </span>
         `,
     data() {
         return {
-
+            
         }
     },
-    props: ['position']
+    methods: {
+        logPosition() {
+            console.log(this.position.x, this.position.y);
+        }
+    },
+    props: ['position'],
+    mounted() {
+        this.$refs.tile.style.setProperty('background-image', `url(${this.position.img})`)
+    }
 }
