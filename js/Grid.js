@@ -6,17 +6,21 @@ export default {
     },
     template: `
     <div class="grid-layout">
-        <tile 
-            v-for="(tile, i) of flatMap"
-            v-bind:position="tile"
-            v-bind:key="'tile' + i + tile.x + tile.y">
-        </tile>
+        <div class="row">
+            <tile 
+                v-for="(tile, i) of flatMap"
+                v-bind:properties="tile"
+                v-bind:key="'tile' + i + tile.x + tile.y"
+                v-bind:class="'tile-type-' + tile.type"
+                class="column">
+            </tile>
+        </div>
     </div>
     `,
     data() {
         return {
             tiles: [],
-            testMap: [
+            grid: [
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -32,6 +36,16 @@ export default {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            ],
+            graphics: [
+                {
+                    textureId: 0,
+                    texture: '/assets/temptxt.png'
+                },
+                {
+                    textureId: 1,
+                    texture: 'assets/temptxt2.png'
+                }
             ]
         }
     },
@@ -40,26 +54,30 @@ export default {
             return this.tiles.flat();
         }
     },
+    methods: {
+        getTexture(type) {
+            if (this.graphics[0].textureId === type){
+                return this.graphics[0].texture;
+            }
+            else if (this.graphics[1].textureId === type){
+                return this.graphics[1].texture;
+            }
+        }
+    },
+
     created() {
 
         for(let row = 0; row < 15; row++){
             this.tiles[row] = [];
             for (let col = 0; col < 15; col++){
-                let position = {
+                let type = this.grid[row][col];
+                let properties = {
                     x: col,
-                    y: row
+                    y: row,
+                    type: type,
+                    image: this.getTexture(type)
                 };
-                this.tiles[row].push(position);
-            }
-        }
-        
-        for (let y = 0; y < 15; y++){
-            for (let x = 0; x < 15; x++){
-                //How to check the value of something in a 2d array
-                  /*if (this.testMap[x][y] == 1){
-                    console.log("I AM A 1");
-                    //console.log(position);
-                }*/
+                this.tiles[row].push(properties);
             }
         }
     }
