@@ -1,27 +1,21 @@
+const size = 64;
+
 export default {
     template: `
-        <span ref="tile" 
+        <div ref="tile" 
         class="tile" 
-        @click="logPosition" 
-        @change="updateTile">
-            <img :src="this.texture" width="64px">
-        </span>
+        @click="logPosition">
+            <h3></h3>
+        </div>
         `,
     props: ['properties', 'type', 'image'],
-    data() {
-        return {
-            texture: '',
-        }
-    },
     methods: {
         logPosition() {
             console.log(this.properties.x, this.properties.y, this.properties.type);
-        },
-        updateTile(){
-            texture = this.properties.image;
         }
     },
     mounted() {
-        this.$refs.tile.style.setProperty('background-image', `url(${this.properties.image})`)
+        this.$refs.tile.style.setProperty('background-image', `url(${this.properties.image})`);
+        document.documentElement.style.setProperty('--size', size + "px");
     }
 }

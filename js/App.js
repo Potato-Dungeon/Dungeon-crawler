@@ -6,7 +6,6 @@ export default {
     },
     template: `
     <div>
-        <p>HELLO WORLD</p>
         <grid></grid>
     </div>
     `
