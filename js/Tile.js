@@ -41,16 +41,7 @@ export default {
                 case 1:
                     return pos = {x: 64, y: 0};
             }
-        },
-
-        /*changeTileOnClick(){
-            if(this.properties.tileId === 1){
-                this.properties.tileId === 0;
-            }
-
-        } */
-
-
+        }
     },
 
     watch:{
@@ -61,8 +52,6 @@ export default {
 
             }
         }
-        
-
     },
 
     mounted() {
