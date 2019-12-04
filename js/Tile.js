@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         logPosition() {
-            console.log(this.properties.x, this.properties.y, this.properties.tileType);
+            console.log(this.properties.x, this.properties.y, this.properties.tileId);
         },
         setTileTexture() {
             let pos = {x, y};
