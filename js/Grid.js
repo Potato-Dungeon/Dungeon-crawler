@@ -8,17 +8,21 @@ export default {
         Tile
     },
     template: `
+    <div id="container">
     <div class="grid-layout">
         <tile 
-            v-for="(tile, i) of flatMap"
+            v-for="(tile, i) of flatGrid"
             v-bind:properties="tile"
             v-bind:key="'tile' + i + tile.x + tile.y"
-            v-bind:class="'tile-tileType-' + tile.tileType">
+            v-bind:class="'tile-tileType-' + tile.tileType"
+            v-on:change-background="upgradeTexture">
         </tile>
+    </div>
     </div>
     `,
     data() {
         return {
+            flatGrid:[],
             tiles: [],
             grid: [
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -49,11 +53,6 @@ export default {
             ]
         }
     },
-    computed: {
-        flatMap() {
-            return this.tiles.flat();
-        }
-    },
     methods: {
         getTexture(tileId) {
             if (this.graphics[0].textureId === tileId){
@@ -62,6 +61,16 @@ export default {
             else if (this.graphics[1].textureId === tileId){
                 return this.graphics[1].texture;
             }
+
+            
+        },
+       
+        upgradeTexture(tile){
+            console.log('clicked', tile)
+            
+            this.tiles[tile.y][tile.x].image = this.getTexture(tile.tileId)
+
+            this.flatGrid = this.tiles.flat() /* Use anytime we want to upgrade*/
         }
     },
 
@@ -80,8 +89,10 @@ export default {
                 this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }
         }
+        this.flatGrid = this.tiles.flat()
     },
     mounted() {
         document.documentElement.style.setProperty('--width', map_width) //Sets a variable "--width" to be used in css style.css
     }
+
 }
