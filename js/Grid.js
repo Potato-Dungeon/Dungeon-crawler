@@ -13,7 +13,7 @@ export default {
             v-for="(tile, i) of flatMap"
             v-bind:properties="tile"
             v-bind:key="'tile' + i + tile.x + tile.y"
-            v-bind:class="'tile-type-' + tile.type">
+            v-bind:class="'tile-tileType-' + tile.tileType">
         </tile>
     </div>
     `,
@@ -55,11 +55,11 @@ export default {
         }
     },
     methods: {
-        getTexture(type) {
-            if (this.graphics[0].textureId === type){
+        getTexture(tileId) {
+            if (this.graphics[0].textureId === tileId){
                 return this.graphics[0].texture;
             }
-            else if (this.graphics[1].textureId === type){
+            else if (this.graphics[1].textureId === tileId){
                 return this.graphics[1].texture;
             }
         }
@@ -70,18 +70,18 @@ export default {
         for(let row = 0; row < map_width; row++){
             this.tiles[row] = [];
             for (let col = 0; col < map_height; col++){
-                let type = this.grid[row][col];
+                let tileId = this.grid[row][col];
                 let properties = {
                     x: col,
                     y: row,
-                    type: type,
-                    image: this.getTexture(type)
+                    tileId: tileId,
+                    image: this.getTexture(tileId)
                 };
-                this.tiles[row].push(properties);
+                this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }
         }
     },
     mounted() {
-        document.documentElement.style.setProperty('--width', map_width)
+        document.documentElement.style.setProperty('--width', map_width) //Sets a variable "--width" to be used in css style.css
     }
 }
