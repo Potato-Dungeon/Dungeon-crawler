@@ -3,16 +3,29 @@
 }
 .tile {
     float: left;
-    width: var(--size);
-    height: var(--size);
-    background-repeat: no-repeat;
+    width: var(--tile_size);
+    height: var(--tile_size);
     background-size: 100% 100%;
 
 
 }
 
+.sprite {
+    background-repeat: no-repeat;
+}
+
+.wall {
+    background: url('/assets/wall.png');
+    background-position: -224px -160px;
+}
+
+.floor {
+    background: url('/assets/floor.png');
+    background-position: 0 0;
+}
+
 .grid-layout {
     display: grid;
-    grid-template-columns: repeat(var(--width), auto);
+    grid-template-columns: repeat(var(--map_size), auto);
     justify-content: center;
 }
