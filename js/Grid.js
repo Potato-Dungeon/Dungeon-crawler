@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             tiles: [],
-            grid: [ //Our grid at the moment
+            grid: [ //Grid, used to print tileTexture from selected tileset
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],

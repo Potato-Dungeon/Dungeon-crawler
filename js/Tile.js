@@ -26,31 +26,192 @@ export default {
         logPosition() {
             console.log(this.properties.x, this.properties.y, this.properties.tileId, this.properties.object);
         },
-        setTileTexture() {
+        setTileTexture() { //This is going to be huge but... Eh. It does what it does
             let pos;
             switch(this.object){
-                case "Wall":
-
+                case "Wall": //48 cases for Walltiles
                     switch(this.tileId){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
-                        case 0:
+                        case 0: //transparent
+                        pos = {x: 0, y: 0};
+                        break;
+                        case 1: //Full Left-right-bottom
+                        pos = {x: 1, y: 0};
+                        break;
+                        case 2: //Full Top-right-bottom
+                        pos = {x: 2, y: 0};
+                        break;
+                        case 3: //Full Right-bottom corner Left
+                        pos = {x: 3, y: 0};
+                        break;
+                        case 4: //Full Right-bottom
+                        pos = {x: 4, y: 0};
+                        break;
+                        case 5: //Full Top-left-bottom
+                        pos = {x: 5, y: 0};
+                        break;
+                        case 6: //Full Left-bottom corner Right
+                        pos = {x: 6, y: 0};
+                        break;
+                        case 7: //Full Left-bottom
+                        pos = {x: 7, y: 0};
+                        break;
+                        case 8: //Full Top-bottom
+                        pos = {x: 0, y: 1};
+                        break;
+                        case 9: //Full Bottom corner Left-right
+                        pos = {x: 1, y: 1};
+                        break;
+                        case 10: //Full Bottom corner Right
+                        pos = {x: 2, y: 1};
+                        break;
+                        case 11: //Full Bottom corner Left
+                        pos = {x: 3, y: 1};
+                        break;
+                        case 12: //Full Bottom
+                        pos = {x: 4, y: 1};
+                        break;
+                        case 13: //Full Top-left-right
+                        pos = {x: 5, y: 1};
+                        break;
+                        case 14: //Full Left-right
+                        pos = {x: 6, y: 1};
+                        break;
+                        case 15: //Full Left-corner
+                        pos = {x: 7, y: 1};
+                        break;
+                        case 16: //Full Right half Left corner Left
+                        pos = {x: 0, y: 2};
+                        break;
+                        case 17: //Full Right half Left
+                        pos = {x: 1, y: 2};
+                        break;
+                        case 18: //Full Right-corner
+                        pos = {x: 2, y: 2};
+                        break;
+                        case 19: //Full Left half Right corner Right
+                        pos = {x: 3, y: 2};
+                        break;
+                        case 20: //Full Left half Right
+                        pos = {x: 4, y: 2};
+                        break;
+                        case 21: //Full Top half Left-right
+                        pos = {x: 5, y: 2};
+                        break;
+                        case 22: //half Left-right corner Left-right
+                        pos = {x: 6, y: 2};
+                        break;
+                        case 23: //half Left-right corner Left
+                        pos = {x: 7, y: 2};
+                        break;
+                        case 24: //half Left-right corner Right
+                        pos = {x: 0, y: 3};
+                        break;
+                        case 25: //half Left-right
+                        pos = {x: 1, y: 3};
+                        break;
+                        case 26: //Full Top-right
+                        pos = {x: 2, y: 3};
+                        break;
+                        case 27: //Full Right corner Left
+                        pos = {x: 3, y: 3};
+                        break;
+                        case 28: //Full Right
+                        pos = {x: 4, y: 3};
+                        break;
+                        case 29: //Full Top half right
+                        pos = {x: 5, y: 3};
+                        break;
+                        case 30: //half Left corner Left-right
+                        pos = {x: 6, y: 3};
+                        break;
+                        case 31: //half Left corner Right
+                        pos = {x: 7, y: 3};
+                        break;
+                        case 32: //half Left corner Left
+                        pos = {x: 0, y: 4};
+                        break;
+                        case 33: //half Left
+                        pos = {x: 1, y: 4};
+                        break;
+                        case 34: //Full Top
                         pos = {x: 2, y: 4};
                         break;
-                        case 1:
-                        pos = {x: 7, y: 5};
+                        case 35: //corner Left-right
+                        pos = {x: 3, y: 4};
+                        break;
+                        case 36: //corner Right
+                        pos = {x: 4, y: 4};
+                        break;
+                        case 37: //corner Left
+                        pos = {x: 5, y: 4};
+                        break;
+                        case 38: //empty
+                        pos = {x: 6, y: 4};
+                        break;
+                        case 39: //Full block
+                        pos = {x: 7, y: 4};
                         break;
                     }
-                break
+                break;
                 
-                case "Floor":
+                case "Floor": //17 cases for Floortiles
                     switch(this.tileId){
-                        case 0:
+                        case 0: //transparent
+                        pos = {x: 0, y: 0};
+                        break;
+                        case 1: //empty
                         pos = {x: 1, y: 0};
-                        break
+                        break;
+                        case 2: //Top
+                        pos = {x: 2, y: 0};
+                        break;
+                        case 3: //Left
+                        pos = {x: 3, y: 0};
+                        break;
+                        case 4: //Top-left
+                        pos = {x: 4, y: 0};
+                        break;
+                        case 5: //Right
+                        pos = {x: 0, y: 1};
+                        break;
+                        case 6: //Top-right
+                        pos = {x: 1, y: 1};
+                        break;
+                        case 7: //Left-right
+                        pos = {x: 2, y: 1};
+                        break;
+                        case 8: //Top-left-right
+                        pos = {x: 3, y: 1};
+                        break;
+                        case 9: //Bottom
+                        pos = {x: 4, y: 1};
+                        break;
+                        case 10: //Top-bottom
+                        pos = {x: 0, y: 2};
+                        break;
+                        case 11: //Left-bottom
+                        pos = {x: 1, y: 2};
+                        break;
+                        case 12: //Top-left-bottom
+                        pos = {x: 2, y: 2};
+                        break;
+                        case 13: //Right-bottom
+                        pos = {x: 3, y: 2};
+                        break;
+                        case 14: //Top-right-bottom
+                        pos = {x: 4, y: 2};
+                        break;
+                        case 15: //Left-right-bottom
+                        pos = {x: 0, y: 3};
+                        break;
+                        case 16: //All edges
+                        pos = {x: 1, y: 3};
+                        break;
                     }
-                break
+                break;
             }
 
-            this.changeTexture(pos)
+            this.changeTexture(pos);
         },
         changeTexture(pos){
             this.$refs.tile.style.backgroundPosition = getTexture(pos.x, pos.y);
