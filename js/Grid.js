@@ -1,5 +1,4 @@
-const map_width = 15;
-const map_height = 15;
+const map_size = 15;
 
 import Tile from './Tile.js'
 
@@ -13,14 +12,14 @@ export default {
             v-for="(tile, i) of flatMap"
             v-bind:properties="tile"
             v-bind:key="'tile' + i + tile.x + tile.y"
-            v-bind:class="'tile-tileType-' + tile.tileType">
+            class="wall">
         </tile>
     </div>
     `,
     data() {
         return {
             tiles: [],
-            grid: [
+            grid: [ //Our grid at the moment
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -37,7 +36,7 @@ export default {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
-            graphics: [
+            graphics: [ //Used for texture-setting at the moment
                 {
                     textureId: 0,
                     texture: '/assets/temptxt.png'
@@ -67,9 +66,9 @@ export default {
 
     created() {
 
-        for(let row = 0; row < map_width; row++){
+        for(let row = 0; row < map_size; row++){
             this.tiles[row] = [];
-            for (let col = 0; col < map_height; col++){
+            for (let col = 0; col < map_size; col++){
                 let tileId = this.grid[row][col];
                 let properties = {
                     x: col,
@@ -82,6 +81,6 @@ export default {
         }
     },
     mounted() {
-        document.documentElement.style.setProperty('--width', map_width) //Sets a variable "--width" to be used in css style.css
+        document.documentElement.style.setProperty('--map_size', map_size) //Sets a variable "--width" to be used in css style.css        document.documentElement.style.setProperty('--height', map_height) //Sets a variable "--height" to be used in css style.css
     }
 }
