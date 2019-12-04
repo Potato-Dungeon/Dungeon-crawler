@@ -2,11 +2,18 @@
     box-sizing: border-box;
 }
 .tile {
-    width: 64px;
-    height: 64px;
+    float: left;
+    width: var(--size);
+    height: var(--size);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+
 }
 
 .grid-layout {
+    display: grid;
+    grid-template-columns: repeat(var(--width), auto);
     justify-content: center;
-    display: flex;
+
 }

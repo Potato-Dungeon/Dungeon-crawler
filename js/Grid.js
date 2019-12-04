@@ -1,3 +1,6 @@
+const map_width = 15;
+const map_height = 15;
+
 import Tile from './Tile.js'
 
 export default {
@@ -6,15 +9,12 @@ export default {
     },
     template: `
     <div class="grid-layout">
-        <div class="row">
-            <tile 
-                v-for="(tile, i) of flatMap"
-                v-bind:properties="tile"
-                v-bind:key="'tile' + i + tile.x + tile.y"
-                v-bind:class="'tile-type-' + tile.type"
-                class="column">
-            </tile>
-        </div>
+        <tile 
+            v-for="(tile, i) of flatMap"
+            v-bind:properties="tile"
+            v-bind:key="'tile' + i + tile.x + tile.y"
+            v-bind:class="'tile-type-' + tile.type">
+        </tile>
     </div>
     `,
     data() {
@@ -67,9 +67,9 @@ export default {
 
     created() {
 
-        for(let row = 0; row < 15; row++){
+        for(let row = 0; row < map_width; row++){
             this.tiles[row] = [];
-            for (let col = 0; col < 15; col++){
+            for (let col = 0; col < map_height; col++){
                 let type = this.grid[row][col];
                 let properties = {
                     x: col,
@@ -80,5 +80,8 @@ export default {
                 this.tiles[row].push(properties);
             }
         }
+    },
+    mounted() {
+        document.documentElement.style.setProperty('--width', map_width)
     }
 }
