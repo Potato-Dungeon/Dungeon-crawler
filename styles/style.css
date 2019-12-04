@@ -21,7 +21,7 @@
 
 .floor {
     background: url('/assets/floor.png');
-    background-position: 0 0;
+    background-position: -32px -32px;
 }
 
 .grid-layout {

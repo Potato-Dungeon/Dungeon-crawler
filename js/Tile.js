@@ -1,33 +1,55 @@
 import { getTexture } from './utils.js'
 
 export default {
+    //v-bind:class checks for object name and uses tileset according to object
     template: `
         <div ref="tile" 
         class="tile sprite" 
-        @click="setTileTexture">
+        @click="setTileTexture"
+        v-bind:class="{ 
+             wall: object === 'Wall',
+             floor: object === 'Floor'
+            }">
             <h3></h3>
         </div>
         `,
-    props: ['properties'],
+    props: {
+        properties: Object
+    },
     data() {
         return {
-            tileId: this.properties.tileId
+            tileId: this.properties.tileId,
+            object: this.properties.object
         }
     },
     methods: {
         logPosition() {
-            console.log(this.properties.x, this.properties.y, this.properties.tileId);
+            console.log(this.properties.x, this.properties.y, this.properties.tileId, this.properties.object);
         },
         setTileTexture() {
             let pos;
-            switch(this.tileId){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
-                case 0:
-                    pos = {x: 1, y: 0};
-                    break;
-                case 1:
-                    pos = {x: 2, y: 0};
-                    break;
+            switch(this.object){
+                case "Wall":
+
+                    switch(this.tileId){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
+                        case 0:
+                        pos = {x: 2, y: 4};
+                        break;
+                        case 1:
+                        pos = {x: 7, y: 5};
+                        break;
+                    }
+                break
+                
+                case "Floor":
+                    switch(this.tileId){
+                        case 0:
+                        pos = {x: 1, y: 0};
+                        break
+                    }
+                break
             }
+
             this.changeTexture(pos)
         },
         changeTexture(pos){
