@@ -15,5 +15,4 @@
     display: grid;
     grid-template-columns: repeat(var(--width), auto);
     justify-content: center;
-
 }
