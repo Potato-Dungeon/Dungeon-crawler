@@ -233,6 +233,9 @@ export default {
                         break;
                     }
                 break;
+                default: //error message
+                    console.log(`ERROR: Expected legitable object, got ${this.object} instead at pos X:${this.properties.x} Y:${this.properties.y}`)
+                break;
             }
 
             this.changeTexture(pos);

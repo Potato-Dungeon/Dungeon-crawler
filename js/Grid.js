@@ -70,6 +70,8 @@ export default {
                 return "Floor"
                 case 'W': //Wall
                 return "Wall"
+                default:
+                return objectId; //User added non-existing symbol in objectGrid
             }
         }
     },
