@@ -5,7 +5,7 @@ export default {
     template: `
         <div ref="tile" 
         class="tile sprite" 
-        @click="setTileTexture"
+        @click="logPosition"
         v-bind:class="{ 
              wall: object === 'Wall',
              floor: object === 'Floor'
@@ -29,7 +29,7 @@ export default {
         setTileTexture() { //This is going to be huge but... Eh. It does what it does
             let pos;
             switch(this.object){
-                case "Wall": //48 cases for Walltiles
+                case "Wall": //40 cases for Walltiles
                     switch(this.tileId){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
                         case 0: //transparent
                         pos = {x: 0, y: 0};
@@ -121,35 +121,59 @@ export default {
                         case 29: //Full Top half right
                         pos = {x: 5, y: 3};
                         break;
-                        case 30: //half Left corner Left-right
+                        case 30: //half Right corner Left-right
                         pos = {x: 6, y: 3};
                         break;
-                        case 31: //half Left corner Right
+                        case 31: //half Right corner Right
                         pos = {x: 7, y: 3};
-                        break;
-                        case 32: //half Left corner Left
+                        break; 
+                        case 32: //half Right corner Left
                         pos = {x: 0, y: 4};
                         break;
-                        case 33: //half Left
+                        case 33: //half Right
                         pos = {x: 1, y: 4};
                         break;
-                        case 34: //Full Top
+                        case 34: //Full Top-left
                         pos = {x: 2, y: 4};
                         break;
-                        case 35: //corner Left-right
+                        case 35: //Full Left corner right
                         pos = {x: 3, y: 4};
                         break;
-                        case 36: //corner Right
+                        case 36: //Full Left
                         pos = {x: 4, y: 4};
                         break;
-                        case 37: //corner Left
+                        case 37: //Full Top half Left
                         pos = {x: 5, y: 4};
                         break;
-                        case 38: //empty
+                        case 38: //half Left corner Left-right
                         pos = {x: 6, y: 4};
                         break;
-                        case 39: //Full block
+                        case 39: //half Left corner Right
                         pos = {x: 7, y: 4};
+                        break;
+                        case 40: //half Left corner Left
+                        pos = {x: 0, y: 5};
+                        break;
+                        case 41: //half Left
+                        pos = {x: 1, y: 5};
+                        break;
+                        case 42: //Full Top
+                        pos = {x: 2, y: 5};
+                        break;
+                        case 43: //corner Left-right
+                        pos = {x: 3, y: 5};
+                        break;
+                        case 44: //corner Right
+                        pos = {x: 4, y: 5};
+                        break;
+                        case 45: //corner Left
+                        pos = {x: 5, y: 5};
+                        break;
+                        case 46: //empty
+                        pos = {x: 6, y: 5};
+                        break;
+                        case 47: //Full block
+                        pos = {x: 7, y: 5};
                         break;
                     }
                 break;
@@ -217,9 +241,12 @@ export default {
             this.$refs.tile.style.backgroundPosition = getTexture(pos.x, pos.y);
         }
     },
-    mounted() {
+    created() {
         //this.$refs.tile.style.setProperty('background-position', setTileTexture(tileId))
         //this.$refs.tile.style.setProperty('background-image', `url(${this.properties.image})`);
         document.documentElement.style.setProperty('--tile_size', 32 + "px"); //Sets a "--size" variable to be used in css style.css
+    },
+    mounted() {
+        this.setTileTexture()
     }
 }
