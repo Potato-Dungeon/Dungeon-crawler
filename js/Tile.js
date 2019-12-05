@@ -238,13 +238,13 @@ export default {
             this.changeTexture(pos);
         },
         changeTexture(pos){
-            this.$refs.tile.style.backgroundPosition = getTexture(pos.x, pos.y);
+            this.$refs.tile.style.backgroundPosition = getTexture(pos.x, pos.y, 32);
         }
     },
     created() {
         //this.$refs.tile.style.setProperty('background-position', setTileTexture(tileId))
         //this.$refs.tile.style.setProperty('background-image', `url(${this.properties.image})`);
-        document.documentElement.style.setProperty('--tile_size', 32 + "px"); //Sets a "--size" variable to be used in css style.css
+        document.documentElement.style.setProperty('--tile_size', 32 + 'px'); //Sets a "--size" variable to be used in css style.css
     },
     mounted() {
         this.setTileTexture()

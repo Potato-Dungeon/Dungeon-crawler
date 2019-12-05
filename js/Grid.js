@@ -7,13 +7,15 @@ export default {
         Tile
     },
     template: `
-    <div class="grid-layout">
-        <tile 
-            v-for="(tile, i) of flatMap"
-            v-bind:properties="tile"
-            v-bind:key="'tile' + i + tile.x + tile.y"
-            class="wall">
-        </tile>
+    <div class="wrapper">
+        <div class="grid-layout">
+            <tile 
+                v-for="(tile, i) of flatMap"
+                v-bind:properties="tile"
+                v-bind:key="'tile' + i + tile.x + tile.y"
+                class="wall">
+            </tile>
+        </div>
     </div>
     `,
     data() {
@@ -38,21 +40,21 @@ export default {
             ],
             objectGrid: [ //ObjectGrid, to check what Tileset, etc. Could be used for collision
                 //'W' = Wall, ' ' = Floor
-                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W',],
-                ['W',' ','W',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W',],
-                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W',],
-                ['W',' ','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W',],
-                ['W',' ','W',' ',' ',' ',' ','W',' ','W','W','W',' ','W','W',],
-                ['W',' ','W','W','W','W','W','W',' ','W','W','W',' ','W','W',],
-                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W','W',],
-                ['W','W',' ','W','W','W',' ','W',' ',' ','W',' ','W','W','W',],
-                ['W','W',' ','W',' ',' ',' ','W','W',' ','W',' ',' ',' ','W',],
-                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ','W',' ',' ',' ','W',],
-                ['W',' ','W','W',' ',' ',' ','W','W',' ','W','W',' ',' ','W',],
-                ['W',' ',' ',' ','W','W','W','W','W',' ',' ',' ',' ',' ','W',],
-                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ','W','W','W','W',],
-                ['W',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ','W','W',],
-                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W',]
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ','W',' ','W','W','W',' ','W','W'],
+                ['W',' ','W','W','W','W','W','W',' ','W','W','W',' ','W','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W','W'],
+                ['W','W',' ','W','W','W',' ','W',' ',' ','W',' ','W','W','W'],
+                ['W','W',' ','W',' ',' ',' ','W','W',' ','W',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ','W',' ',' ',' ','W'],
+                ['W',' ','W','W',' ',' ',' ','W','W',' ','W','W',' ',' ','W'],
+                ['W',' ',' ',' ','W','W','W','W','W',' ',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ','W','W','W','W'],
+                ['W',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ','W','W'],
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
             ]
         }
     },
@@ -62,7 +64,7 @@ export default {
         }
     },
     methods: {
-        getObjectFromId(objectId){
+        setObjectFromId(objectId){
             switch (objectId){
                 case ' ': //Floor
                 return "Floor"
@@ -83,7 +85,7 @@ export default {
                     x: col,
                     y: row,
                     tileId: tileId,
-                    object: this.getObjectFromId(objectId),
+                    object: this.setObjectFromId(objectId),
                 };
                 this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }

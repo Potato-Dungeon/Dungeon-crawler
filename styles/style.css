@@ -6,8 +6,6 @@
     width: var(--tile_size);
     height: var(--tile_size);
     background-size: 100% 100%;
-
-
 }
 
 .sprite {
@@ -16,16 +14,19 @@
 
 .wall {
     background: url('/assets/wall.png');
-    background-position: -224px -160px;
 }
 
 .floor {
     background: url('/assets/floor.png');
-    background-position: -32px -32px;
 }
 
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(var(--map_size), auto);
+    justify-content: center;
+}
+
+.wrapper {
+    display: flex;
     justify-content: center;
 }
