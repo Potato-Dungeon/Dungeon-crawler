@@ -2,7 +2,6 @@
     box-sizing: border-box;
 }
 .tile {
-    float: left;
     width: var(--tile_size);
     height: var(--tile_size);
     background-size: 100% 100%;
@@ -23,7 +22,7 @@
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(var(--map_size), auto);
-    justify-content: center;
+    grid-template-rows: repeat(var(--map_size), auto);
 }
 
 .wrapper {
