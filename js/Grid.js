@@ -1,5 +1,4 @@
-const map_width = 15;
-const map_height = 15;
+const map_size = 15;
 
 import Tile from './Tile.js'
 
@@ -8,44 +7,54 @@ export default {
         Tile
     },
     template: `
-    <div class="grid-layout">
-        <tile 
-            v-for="(tile, i) of flatMap"
-            v-bind:properties="tile"
-            v-bind:key="'tile' + i + tile.x + tile.y"
-            v-bind:class="'tile-tileType-' + tile.tileType">
-        </tile>
+    <div class="wrapper">
+        <div class="grid-layout">
+            <tile 
+                v-for="(tile, i) of flatMap"
+                v-bind:properties="tile"
+                v-bind:key="'tile' + i + tile.x + tile.y"
+                class="wall">
+            </tile>
+        </div>
     </div>
     `,
     data() {
         return {
             tiles: [],
-            grid: [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            grid: [ //Grid, used to print tileTexture from selected tileset
+                [47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                [47, 16, 47, 16, 16, 16, 16, 16, 47, 47, 16, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 47, 47, 16, 16, 16, 16, 47],
+                [47, 16, 47, 16, 16, 16, 16, 16, 16, 47, 16, 16, 16, 16, 47],
+                [47, 16, 47, 16, 16, 16, 16, 47, 16, 47, 47, 47, 16, 47, 47],
+                [47, 16, 47, 47, 47, 47, 47, 47, 16, 47, 47, 47, 16, 47, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 47, 47],
+                [47, 47, 16, 47, 47, 47, 16, 47, 16, 16, 47, 16, 47, 47, 47],
+                [47, 47, 16, 47, 16, 16, 16, 47, 47, 16, 47, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 16, 16, 47, 16, 16, 16, 47],
+                [47, 16, 47, 47, 16, 16, 16, 47, 47, 16, 47, 47, 16, 16, 47],
+                [47, 16, 16, 16, 47, 47, 47, 47, 47, 16, 16, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 47, 47, 16, 47, 47, 47, 47],
+                [47, 16, 16, 16, 47, 47, 16, 16, 47, 47, 16, 16, 16, 47, 47],
+                [47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47]
             ],
-            graphics: [
-                {
-                    textureId: 0,
-                    texture: '/assets/temptxt.png'
-                },
-                {
-                    textureId: 1,
-                    texture: 'assets/temptxt2.png'
-                }
+            objectGrid: [ //ObjectGrid, to check what Tileset, etc. Could be used for collision
+                //'W' = Wall, ' ' = Floor
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ','W',' ','W','W','W',' ','W','W'],
+                ['W',' ','W','W','W','W','W','W',' ','W','W','W',' ','W','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W','W'],
+                ['W','W',' ','W','W','W',' ','W',' ',' ','W',' ','W','W','W'],
+                ['W','W',' ','W',' ',' ',' ','W','W',' ','W',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ','W',' ',' ',' ','W'],
+                ['W',' ','W','W',' ',' ',' ','W','W',' ','W','W',' ',' ','W'],
+                ['W',' ',' ',' ','W','W','W','W','W',' ',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ','W','W','W','W'],
+                ['W',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ','W','W'],
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
             ]
         }
     },
@@ -55,33 +64,36 @@ export default {
         }
     },
     methods: {
-        getTexture(tileId) {
-            if (this.graphics[0].textureId === tileId){
-                return this.graphics[0].texture;
-            }
-            else if (this.graphics[1].textureId === tileId){
-                return this.graphics[1].texture;
+        setObjectFromId(objectId){
+            switch (objectId){
+                case ' ': //Floor
+                return "Floor"
+                case 'W': //Wall
+                return "Wall"
+                default:
+                return objectId; //User added non-existing symbol in objectGrid
             }
         }
     },
 
     created() {
 
-        for(let row = 0; row < map_width; row++){
+        for(let row = 0; row < map_size; row++){
             this.tiles[row] = [];
-            for (let col = 0; col < map_height; col++){
+            for (let col = 0; col < map_size; col++){
                 let tileId = this.grid[row][col];
+                let objectId = this.objectGrid[row][col];
                 let properties = {
                     x: col,
                     y: row,
                     tileId: tileId,
-                    image: this.getTexture(tileId)
+                    object: this.setObjectFromId(objectId),
                 };
                 this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }
         }
     },
     mounted() {
-        document.documentElement.style.setProperty('--width', map_width) //Sets a variable "--width" to be used in css style.css
+        document.documentElement.style.setProperty('--map_size', map_size) //sends --map_size variable to css
     }
 }
