@@ -2,7 +2,9 @@ export default{
     props: ['position'],
 
     template:`
-        <div ref="player" class="player"></div>
+    <div ref="shadow" class="shadow-overlay">
+        <div ref="player" id="player"></div>
+    </div>
     `,
     data(){
         return{
@@ -23,6 +25,8 @@ export default{
         newPosition(){
             this.$refs.player.style.setProperty('left', `calc(${this.position.x} * 32px)`)
             this.$refs.player.style.setProperty('top', `calc(${this.position.y} * 32px)`)
+
+            this.$refs.shadow.style.setProperty('background', `radial-gradient(circle at calc(${this.position.x} * 32px) calc(${this.position.y} * 32px), transparent,black, black, black, black)`)
         }
     },
 
