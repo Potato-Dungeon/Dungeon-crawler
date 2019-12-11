@@ -17,7 +17,7 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player id="player" v-bind:position="playerPosition"></player>
+            <player v-bind:position="playerPosition"></player>
         </div>
     </div>
     </div>
