@@ -1,5 +1,4 @@
-const map_width = 15;
-const map_height = 15;
+const map_size = 15;
 
 import Tile from './Tile.js'
 
@@ -8,15 +7,15 @@ export default {
         Tile
     },
     template: `
-    <div id="container">
-    <div class="grid-layout">
-        <tile 
-            v-for="(tile, i) of flatGrid"
-            v-bind:properties="tile"
-            v-bind:key="'tile' + i + tile.x + tile.y"
-            v-bind:class="'tile-tileType-' + tile.tileType"
-            v-on:change-background="upgradeTexture">
-        </tile>
+    <div class="wrapper">
+        <div class="grid-layout">
+            <tile 
+                v-for="(tile, i) of flatMap"
+                v-bind:properties="tile"
+                v-bind:key="'tile' + i + tile.x + tile.y"
+                class="wall">
+            </tile>
+        </div>
     </div>
     </div>
     `,
@@ -24,105 +23,78 @@ export default {
         return {
             flatGrid:[],
             tiles: [],
-            grid: [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
-                [1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
-                [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1],
-                [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            grid: [ //Grid, used to print tileTexture from selected tileset
+                [47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                [47, 16, 47, 16, 16, 16, 16, 16, 47, 47, 16, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 47, 47, 16, 16, 16, 16, 47],
+                [47, 16, 47, 16, 16, 16, 16, 16, 16, 47, 16, 16, 16, 16, 47],
+                [47, 16, 47, 16, 16, 16, 16, 47, 16, 47, 47, 47, 16, 47, 47],
+                [47, 16, 47, 47, 47, 47, 47, 47, 16, 47, 47, 47, 16, 47, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 47, 47],
+                [47, 47, 16, 47, 47, 47, 16, 47, 16, 16, 47, 16, 47, 47, 47],
+                [47, 47, 16, 47, 16, 16, 16, 47, 47, 16, 47, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 16, 16, 47, 16, 16, 16, 47],
+                [47, 16, 47, 47, 16, 16, 16, 47, 47, 16, 47, 47, 16, 16, 47],
+                [47, 16, 16, 16, 47, 47, 47, 47, 47, 16, 16, 16, 16, 16, 47],
+                [47, 16, 16, 16, 16, 16, 16, 16, 47, 47, 16, 47, 47, 47, 47],
+                [47, 16, 16, 16, 47, 47, 16, 16, 47, 47, 16, 16, 16, 47, 47],
+                [47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47]
             ],
-            graphics: [
-                {
-                    textureId: 0,
-                    texture: '/assets/temptxt.png'
-                },
-                {
-                    textureId: 1,
-                    texture: 'assets/temptxt2.png'
-                },
-                {         /*Add/set the hero image to the board. */
-                    textureId: 2,
-                    texture: 'assets/main-character.png'
-                },
-                /*
-                {
-                    textureId: 3,
-                    texture: '' (enemy)
-                },
-                {
-                    textureId: 4,
-                    texture: '' (chest/goldCoin)
-                } */
-                
-               
-            ],
-            // Add fixed Hero start position.. Incase we need it. 
-            heroX: 1,
-            heroY: 5,
-            
+            objectGrid: [ //ObjectGrid, to check what Tileset, etc. Could be used for collision
+                //'W' = Wall, ' ' = Floor
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ','W',' ','W','W','W',' ','W','W'],
+                ['W',' ','W','W','W','W','W','W',' ','W','W','W',' ','W','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W','W'],
+                ['W','W',' ','W','W','W',' ','W',' ',' ','W',' ','W','W','W'],
+                ['W','W',' ','W',' ',' ',' ','W','W',' ','W',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ','W',' ',' ',' ','W'],
+                ['W',' ','W','W',' ',' ',' ','W','W',' ','W','W',' ',' ','W'],
+                ['W',' ',' ',' ','W','W','W','W','W',' ',' ',' ',' ',' ','W'],
+                ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ','W','W','W','W'],
+                ['W',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ','W','W'],
+                ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
+            ]
         }
     },
 
     methods: {
-        getTexture(tileId) {
-            if (this.graphics[0].textureId === tileId){
-                return this.graphics[0].texture;
+        setObjectFromId(objectId){
+            switch (objectId){
+                case ' ': //Floor
+                return "Floor"
+                case 'W': //Wall
+                return "Wall"
+                default:
+                return objectId; //User added non-existing symbol in objectGrid
             }
-            else if (this.graphics[1].textureId === tileId){
-                return this.graphics[1].texture;
-            }
-
-            /* Added the graphics for the Hero*/
-            else if (this.graphics[2].textureId === tileId){
-                return this.graphics[2].texture;
-            }
-
-            
-        },
-       
-        /* Use anytime we want to upgrade*/
-        upgradeTexture(tile){
-            console.log('clicked', tile)
-            
-            this.tiles[tile.y][tile.x].image = this.getTexture(tile, tileId); // original (tile, tileId) alternativt (2)
-
-            this.flatGrid = this.tiles.flat() 
-        },
-        /* new function to "move" the character, didnt get Johans to work. */ 
         moveHero(newX, newY){
             this.tiles[newY][newX].image = this.getTexture(2);
             this.tiles[this.heroY][this.heroX].image = this.getTexture(0);
         },  
-
-
+        /* new function to "move" the character, didnt get Johans to work. */ 
         //HeroMovement in the progress 
         moveUp(){
+
             let newPositionX = this.heroX;
             let newPositionY = this.heroY-1;
             console.log("moveUp");
-            if(this.grid[newPositionY][newPositionX] !== 1){
                 this.moveHero(newPositionX, newPositionY);
+            if(this.grid[newPositionY][newPositionX] !== 1){
                 this.heroY = newPositionY;  
                 console.log(newPositionX, newPositionY)    
-            }
         },
-
+            }
         moveDown(){
             let newPositionX = this.heroX;
             let newPositionY = this.heroY+1;
             console.log("moveDown");
             if(this.grid[newPositionY][newPositionX] !== 1){
                 this.moveHero(newPositionX, newPositionY);
+
                 this.heroY = newPositionY;
                 console.log(newPositionX, newPositionY)
             }       
@@ -130,39 +102,48 @@ export default {
 
         moveLeft(){
             let newPositionX = this.heroX-1;
-            let newPositionY = this.heroY;
             console.log("moveLeft");
+            let newPositionY = this.heroY;
             if(this.grid[newPositionY][newPositionX] !== 1){
                 this.moveHero(newPositionX, newPositionY);
-                this.heroX = newPositionX;
                 console.log(newPositionX, newPositionY)
+                this.heroX = newPositionX;
 
             }
-        },
 
+        },
         moveRight(){
             let newPositionX = this.heroX+1;
             let newPositionY = this.heroY;
             console.log("moveRight");
-            if(this.grid[newPositionY][newPositionX] !== 1){
                 this.moveHero(newPositionX, newPositionY);
+            if(this.grid[newPositionY][newPositionX] !== 1){
                 this.heroX = newPositionX;
                 console.log(newPositionX, newPositionY)
             }
+        upgradeTexture(tile){
+            console.log('clicked', tile)
+            
+            this.tiles[tile.y][tile.x].image = this.getTexture(tile, tileId); // original (tile, tileId) alternativt (2)
+
+        },
+            this.flatGrid = this.tiles.flat() 
+
         }
     },
 
     created() {
 
-        for(let row = 0; row < map_width; row++){
+        for(let row = 0; row < map_size; row++){
             this.tiles[row] = [];
-            for (let col = 0; col < map_height; col++){
+            for (let col = 0; col < map_size; col++){
                 let tileId = this.grid[row][col];
+                let objectId = this.objectGrid[row][col];
                 let properties = {
                     x: col,
                     y: row,
                     tileId: tileId,
-                    image: this.getTexture(tileId)
+                    object: this.setObjectFromId(objectId),
                 };
                 this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }
@@ -170,14 +151,11 @@ export default {
         this.flatGrid = this.tiles.flat()
     },
     mounted() {
-        document.documentElement.style.setProperty('--width', map_width); //Sets a variable "--width" to be used in css style.css
-
-
         // EventListener for reaction on keyup 
         window.addEventListener('keyup', (e) => {
                 if(e.keyCode === 37){
-                    this.moveLeft()
                 }
+                    this.moveLeft()
                 if(e.keyCode === 38){
                     this.moveUp()
                 }
@@ -188,5 +166,6 @@ export default {
                     this.moveDown()
                 }
             })
+        document.documentElement.style.setProperty('--map_size', map_size) //sends --map_size variable to css
     }
 }

@@ -2,19 +2,31 @@
     box-sizing: border-box;
 }
 .tile {
-    float: left;
-    width: var(--size);
-    height: var(--size);
-    background-repeat: no-repeat;
+    width: var(--tile_size);
+    height: var(--tile_size);
     background-size: 100% 100%;
-    background-color: rgb(7, 179, 7); /* use image of the floor as background???*/
+}
 
+.sprite {
+    background-repeat: no-repeat;
+}
 
+.wall {
+    background: url('/assets/wall.png');
+}
+
+.floor {
+    background: url('/assets/floor.png');
 }
 
 .grid-layout {
     display: grid;
-    grid-template-columns: repeat(var(--width), auto);
+    grid-template-columns: repeat(var(--map_size), auto);
+    grid-template-rows: repeat(var(--map_size), auto);
+}
+
+.wrapper {
+    display: flex;
     justify-content: center;
     /*background-color: green;
     z-index: 1; */
