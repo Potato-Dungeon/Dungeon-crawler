@@ -7,6 +7,9 @@ export default{
 
     },
     data(){
+        return{
+            sprite: "./assets/bossInquisitor.png"
+        }
 
     },
     methods:{
