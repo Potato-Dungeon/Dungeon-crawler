@@ -14,8 +14,8 @@ export default{
     }
 }
 
-/*class Monster extends Creature{
+/*class Bandit extends Monster{
     constructor(hitpoints, damageOutput){
-        super(hitpoints, damageOutput)
+        super(2, 5)
     }
 }*/

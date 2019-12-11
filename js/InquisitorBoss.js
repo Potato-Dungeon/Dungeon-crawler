@@ -14,7 +14,7 @@ export default{
     }
 }
 
-/*class Monster extends Creature{
+/*class DragonBoss extends Monster{
     constructor(hitpoints, damageOutput){
         super(hitpoints, damageOutput)
     }
