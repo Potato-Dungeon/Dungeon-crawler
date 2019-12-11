@@ -20,6 +20,7 @@
 }
 
 .grid-layout {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(var(--map_size), auto);
     grid-template-rows: repeat(var(--map_size), auto);
@@ -30,6 +31,11 @@
     justify-content: center;
     /*background-color: green;
     z-index: 1; */
+
+    /* Add background to the page */
+    background-size: cover;
+    height: 100%;
+    background-image: url('https://img.wallpapersafari.com/desktop/1600/900/90/68/UVQh3n.jpg');
     
 }
 
@@ -51,11 +57,13 @@
     border-radius: 10px;;
 }
 
-#container{
-    
+#player {
+    position: absolute;
+    left: calc(5 * 32px);
+    top: calc(2 * 32px);
+    width: 32px;
+    height: 32px;
+    background-image: url('/assets/main-character.png');
     background-size: cover;
-    height: 100%;
-    
-    background-image: url('https://img.wallpapersafari.com/desktop/1600/900/90/68/UVQh3n.jpg');
-    /* box-shadow */
+    transition: 150ms;
 }
