@@ -5,7 +5,8 @@ export default {
         Grid
     },
     template: `
-    <div>
+    <div id="pageBorder">
+        <h1 id="title"><b>Potatoe Dungeon</b></h1>
         <grid></grid>
     </div>
     `
