@@ -17,7 +17,7 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player v-bind:position="playerPosition"></player>
+            <player id="player" v-bind:position="playerPosition"></player>
         </div>
     </div>
     </div>
@@ -47,7 +47,7 @@ export default {
                 ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
                 ['W',' ','W',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
                 ['W',' ',' ',' ',' ',' ',' ',' ','W','W',' ',' ',' ',' ','W'],
-                ['W','S','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W'],
+                ['W',' ','W',' ',' ',' ',' ',' ',' ','W',' ',' ',' ',' ','W'],
                 ['W',' ','W',' ',' ',' ',' ','W',' ','W','W','W',' ','W','W'],
                 ['W',' ','W','W','W','W','W','W',' ','W','W','W',' ','W','W'],
                 ['W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W','W'],
@@ -163,11 +163,8 @@ export default {
                     case "W":
                         tileId = 47;
                     break;
-                    case " ":
+                    default:
                         tileId = 16;
-                    case "S":
-                        objectId = RaisedSaint;
-                        break;
                 } 
 
                 let objectId = this.objectGrid[row][col];
