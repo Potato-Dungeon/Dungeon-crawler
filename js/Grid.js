@@ -114,39 +114,31 @@ export default {
 
             let newPositionX = this.playerPosition.x;
             let newPositionY = this.playerPosition.y-1;
-            console.log("moveUp");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
-                this.playerPosition.y = newPositionY;  
-                console.log(newPositionX, newPositionY)    
+                this.playerPosition.y = newPositionY; 
             }
         },
         moveDown(){
             let newPositionX = this.playerPosition.x;
             let newPositionY = this.playerPosition.y+1;
-            console.log("moveDown");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
                 this.playerPosition.y = newPositionY;
-                console.log(newPositionX, newPositionY)
             }       
         },
 
         moveLeft(){
             let newPositionY = this.playerPosition.y;
             let newPositionX = this.playerPosition.x-1;
-            console.log("moveLeft");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
                 this.playerPosition.x = newPositionX
-                console.log(newPositionX, newPositionY)
             }
 
         },
         moveRight(){
             let newPositionX = this.playerPosition.x+1;
             let newPositionY = this.playerPosition.y;
-            console.log("moveRight");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
                 this.playerPosition.x = newPositionX;
-                console.log(newPositionX, newPositionY)
             }
         }, 
         
@@ -180,8 +172,6 @@ export default {
                 this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
             }
         }
-        console.log(this.tiles);
-        
     },
     mounted() {
         // EventListener for reaction on keyup 
