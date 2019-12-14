@@ -17,7 +17,7 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player id="player" v-bind:position="playerPosition"></player>
+            <player v-bind:position="playerPosition"></player>
         </div>
     </div>
     </div>
@@ -115,18 +115,26 @@ export default {
             let newPositionX = this.playerPosition.x;
             let newPositionY = this.playerPosition.y-1;
             console.log("moveUp");
-            if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+            if(this.objectGrid[newPositionY][newPositionX] !== 'W' 
+            && this.objectGrid[newPositionY][newPositionX] !== 'M'){
                 this.playerPosition.y = newPositionY;  
                 console.log(newPositionX, newPositionY)    
+            }
+            if(this.objectGrid[newPositionY][newPositionX] == 'M'){
+                player.combat(5, 1)
             }
         },
         moveDown(){
             let newPositionX = this.playerPosition.x;
             let newPositionY = this.playerPosition.y+1;
             console.log("moveDown");
-            if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+            if(this.objectGrid[newPositionY][newPositionX] !== 'W' 
+            && this.objectGrid[newPositionY][newPositionX] !== 'M'){
                 this.playerPosition.y = newPositionY;
                 console.log(newPositionX, newPositionY)
+            }
+            if(this.objectGrid[newPositionY][newPositionX] == 'M'){
+                this.$refs.player.combat(5, 1)
             }       
         },
 
@@ -134,9 +142,13 @@ export default {
             let newPositionY = this.playerPosition.y;
             let newPositionX = this.playerPosition.x-1;
             console.log("moveLeft");
-            if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+            if(this.objectGrid[newPositionY][newPositionX] !== 'W' 
+            && this.objectGrid[newPositionY][newPositionX] !== 'M'){
                 this.playerPosition.x = newPositionX
                 console.log(newPositionX, newPositionY)
+            }
+            if(this.objectGrid[newPositionY][newPositionX] == 'M'){
+                this.$refs.player.combat(5, 1)
             }
 
         },
@@ -144,9 +156,13 @@ export default {
             let newPositionX = this.playerPosition.x+1;
             let newPositionY = this.playerPosition.y;
             console.log("moveRight");
-            if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+            if(this.objectGrid[newPositionY][newPositionX] !== 'W' 
+            && this.objectGrid[newPositionY][newPositionX] !== 'M'){
                 this.playerPosition.x = newPositionX;
                 console.log(newPositionX, newPositionY)
+            }
+            if(this.objectGrid[newPositionY][newPositionX] == 'M'){
+                this.$refs.player.combat(5, 1)
             }
         }, 
         

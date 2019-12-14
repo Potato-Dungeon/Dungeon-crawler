@@ -9,7 +9,9 @@ export default{
     data(){
         return{
             x: 0,
-            y: 0
+            y: 0,
+            hitpoints: '10',
+            damageOutput: 1
         } 
     },
     watch:{
@@ -32,5 +34,19 @@ export default{
 
     mounted(){
         this.newPosition()
+    },
+
+    combat(monsterHitpoints, monsterDamageOutput){
+        while(monsterHitpoints > 0){
+            console.log(this.hitpoints) //Is "undefined" but gives no undefined error.
+            monsterHitpoints--
+            console.log("Monster lose 1 HP")
+            this.hitpoints--
+            console.log("Player lose 1 HP")
+            if(this.hitpoints == 0){
+                alert("You've been defeated!")
+                location.reload(); //Reloads the page, restarting the game
+            }
+        }
     }
 }
