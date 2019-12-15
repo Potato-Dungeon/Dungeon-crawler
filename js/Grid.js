@@ -60,6 +60,18 @@ export default {
                 return objectId; //User added non-existing symbol in grid
             }
         },
+
+        /*
+        Movement Functions /w collision
+        let newPos is the new Position the player wishes to move to
+        an if condition get fired
+        The if condition considers the new position of the player in the grid and a symbol
+        The symbol repesents what the condition will check for, 
+        If the new Position is the same as the symbol, return true, else ignore the condition
+        Here it first check for if the new Position is a 'W' for wall and stop if true
+
+        If neither of the conditions get triggered, set playerPosition to newPos, etc move the character
+        */
         moveUp(){
             let newPos = {x: this.playerPosition.x, y: this.playerPosition.y - 1}
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
@@ -158,28 +170,28 @@ export default {
         // EventListener for reaction on keyup 
         window.addEventListener('keyup', (e) => {
                 switch(e.keyCode){
-                    case 37:
+                    case 37: //Left Arrowkey
                         this.moveLeft();
                         break;
-                    case 38:
+                    case 38: //Up Arrowkey
                         this.moveUp();
                         break;
-                    case 39:
+                    case 39: //Right Arrowkey
                         this.moveRight();
                         break;
-                    case 40:
+                    case 40: //Down Arrowkey
                         this.moveDown();
                         break;
-                    case 65:
+                    case 65: //A
                         this.moveLeft();
                         break;
-                    case 87:
+                    case 87: //W
                         this.moveUp();
                         break;
-                    case 68:
+                    case 68: //D
                         this.moveRight();
                         break;
-                    case 83:
+                    case 83: //S
                         this.moveDown();
                         break;
                 }
