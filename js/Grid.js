@@ -1,9 +1,8 @@
-const map_size = 15;
-
 import Tile from './Tile.js'
 import player from './player.js'
 import coin from './Coin.js'
 import { levels } from './levels.js'
+import { collidesWithSymbol } from './utils.js'
 
 export default {
     components: {
@@ -20,12 +19,12 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player v-bind:position="playerPosition"></player>
             <coin 
                 v-for="(coin, i) of coins"
                 v-bind:position="coin"
                 v-bind:key="'coin' + i + coin.x + coin.y"
             ></coin>
+            <player v-bind:position="playerPosition"></player>
         </coin>
         </div>
     </div>
@@ -62,35 +61,38 @@ export default {
             }
         },
         moveUp(){
-            let newPositionX = this.playerPosition.x;
-            let newPositionY = this.playerPosition.y-1;
-            if(this.grid[newPositionY][newPositionX] !== 'W'){
-                this.playerPosition.y = newPositionY; 
+            let newPos = {x: this.playerPosition.x, y: this.playerPosition.y - 1}
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
+                return; //If player meets a wall
             }
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
+                console.log("picked up coin!")
+                return; //If player meets a coin
+            }
+            this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false
         },
 
         moveDown(){
-            let newPositionX = this.playerPosition.x;
-            let newPositionY = this.playerPosition.y+1;
-            if(this.grid[newPositionY][newPositionX] !== 'W'){
-                this.playerPosition.y = newPositionY;
-            }       
+            let newPos = {x: this.playerPosition.x, y: this.playerPosition.y + 1}
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
+                return; //If player meets a wall
+            }
+            this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false     
         },
 
         moveLeft(){
-            let newPositionY = this.playerPosition.y;
-            let newPositionX = this.playerPosition.x-1;
-            if(this.grid[newPositionY][newPositionX] !== 'W'){
-                this.playerPosition.x = newPositionX
+            let newPos = {x: this.playerPosition.x - 1, y: this.playerPosition.y}
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
+                return; //If player meets a wall
             }
-
+            this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
         moveRight(){
-            let newPositionX = this.playerPosition.x+1;
-            let newPositionY = this.playerPosition.y;
-            if(this.grid[newPositionY][newPositionX] !== 'W'){
-                this.playerPosition.x = newPositionX;
+            let newPos = {x: this.playerPosition.x + 1, y: this.playerPosition.y}
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
+                return; //If player meets a wall
             }
+            this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
 
         nextLevel(){
@@ -127,8 +129,8 @@ export default {
                             this.grid[row][col] = ' ';
                             break;
                         case "c":
-                            this.grid[row][col] = ' ';
-                            this.isEntity = true;
+                            this.grid[row][col] = ' '; //TODO Ändra så att det inte funkar såhär
+                            this.isEntity = true; //Om man har ett system som detta, kan programmet ej läsa av coins
                             break;
                     } 
     
@@ -143,7 +145,6 @@ export default {
                     if (this.isEntity){
                         let position = {x: col, y: row};
                         this.coins.push(position);
-                        console.log(position)
                         this.isEntity = false;
                     }
                 }
@@ -183,7 +184,7 @@ export default {
                         break;
                 }
             }),
-        document.documentElement.style.setProperty('--map_size', map_size) //sends --map_size variable to css
+        document.documentElement.style.setProperty('--map_size', this.grid[0].length) //sends --size of map variable to css
     }
 }
 
