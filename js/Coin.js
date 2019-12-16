@@ -8,6 +8,10 @@ export default {
     },
     data() {
         return{
+            pos:{
+                x: this.position.x,
+                y: this.position.y
+            },
             value: 2,
         }
     },
