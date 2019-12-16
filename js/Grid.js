@@ -38,7 +38,7 @@ export default {
         return {
             level: 0,
             tiles: [],
-            grid: levels[1],
+            grid: levels[0],
             playerPosition:{
                 x: 0,
                 y: 0
@@ -98,7 +98,7 @@ export default {
                  //If player meets a coin
             }
             if ((this.playerPosition.x === this.monsterPosition.x)
-                && (this.playerPosition.y - 1 === this.monsterPosition.y)){
+                && (this.playerPosition.y + 1 === this.monsterPosition.y)){
                 this.playerDies();
                 console.log("Player dies")
                 return; //If player meets a coin
@@ -115,7 +115,7 @@ export default {
                 this.pickedUpItem(newPos.x, newPos.y);
                  //If player meets a coin
             }
-            if ((this.playerPosition.x -1 === this.monsterPosition.x)
+            if ((this.playerPosition.x - 1 === this.monsterPosition.x)
                 && (this.playerPosition.y === this.monsterPosition.y)){
                 this.playerDies();
                 console.log("Player dies")
