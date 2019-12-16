@@ -3,12 +3,14 @@ import player from './player.js'
 import coin from './Coin.js'
 import { levels } from './levels.js'
 import { collidesWithSymbol } from './utils.js'
+import RaisedSaint from './RaisedSaint.js'
 
 export default {
     components: {
         Tile,
         player,
-        coin
+        coin,
+        RaisedSaint
     },
     template: `
     <div class="wrapper">
@@ -19,14 +21,13 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            
             <coin 
                 v-for="(coin, i) of coins"
                 v-bind:position="coin"
                 v-bind:key="'coin' + i + coin.x + coin.y"
             ></coin>
             <player v-bind:position="playerPosition" ref="player"></player>
-        </coin>
+            <RaisedSaint v-bind:position="monsterPosition" reef="monster"></RaisedSaint>
         </div>
     </div>
     </div>
@@ -51,17 +52,6 @@ export default {
     },
 
     methods: {
-        setObjectFromId(objectId){
-            switch (objectId){
-                case ' ': //Floor
-                return "Floor"
-                case 'W': //Wall
-                return "Wall"
-                default:
-                return objectId; //User added non-existing symbol in grid
-            }
-        },
-
         /*
         Movement Functions /w collision
         let newPos is the new Position the player wishes to move to
@@ -77,12 +67,17 @@ export default {
             let newPos = {x: this.playerPosition.x, y: this.playerPosition.y - 1}
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
                 return; //If player meets a wall
-                //this.checkForItem(newPositionX, newPositionY)
+                //this.checkForItem(newPos.x, newPos.y)
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 console.log("picked up coin!")
+                this.$refs.player.addItem();
+                console.log(this.$refs.player.backpack.coin);
                 return; //If player meets a coin
             }
+            /*if (collidesWithSymbol(this.grid[newPos.y][newPos.x], "S")){
+                this.playerDies();
+            }*/
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false
         },
 
@@ -108,11 +103,6 @@ export default {
             }
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
-        checkForItem(x, y){
-            if(this.objectGrid[y][x] == 'c'){
-               this.$refs.player.addItem();
-        }
-    },
 
         nextLevel(){
             this.level++;
@@ -122,20 +112,22 @@ export default {
             this.updateTiles();
         },
 
-
         updateTiles() {
             for(let row = 0; row < this.grid.length; row++){
                 this.tiles[row] = [];
                 for (let col = 0; col < this.grid[0].length; col++){
                     //let tileId = this.grid[row][col];
                     let tileId; 
+                    let objectId = 'Floor';
                     tileId = 16;
                     switch(this.grid[row][col]){
                         case "W":
                             tileId = 47;
+                            objectId = 'Wall'
                             break;
                         case " ":
                             tileId = 16;
+                            objectId = 'Floor'
                             break;
                         case "S":
                             objectId = RaisedSaint;
@@ -148,17 +140,15 @@ export default {
                             this.grid[row][col] = ' ';
                             break;
                         case "c":
-                            this.grid[row][col] = ' '; //TODO Ändra så att det inte funkar såhär
+                            //this.grid[row][col] = ' '; //TODO Ändra så att det inte funkar såhär
                             this.isEntity = true; //Om man har ett system som detta, kan programmet ej läsa av coins
                             break;
-                    } 
-    
-                    let objectId = this.grid[row][col];
+                    }
                     let properties = {
                         x: col,
                         y: row,
                         tileId: tileId,
-                        object: this.setObjectFromId(objectId),
+                        object: objectId
                     };
                     this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
                     if (this.isEntity){
@@ -168,6 +158,19 @@ export default {
                     }
                 }
             }
+        },
+
+        pickedUpItem(){
+            console.log("picked up coin!")
+            this.$refs.player.addItem();
+            console.log(this.$refs.player.backpack.coin);
+            this.grid[newPos.x][newPos.y] = ' ';
+        },
+
+        playerDies(){
+            console.log("stepped on a monster")
+            alert('You died!')
+
         }
     },
     created() {
