@@ -1,16 +1,14 @@
 export default{
-    props: ['position'],
-
     template:`
-        <div ref="RaisedSaint" class="RaisedSaint"></div>
+        <div ref="RaisedSaint" id="saintSkull" class="sprite"></div>
     `,
+    props: {
+        position: Object
+    },
     data(){
         return{
-            x: 0,
-            y: 0,
             hitpoints: 1,
             damage: 1,
-            objectID: "S"
         } 
     },
     /*watch:{
@@ -22,14 +20,14 @@ export default{
         }
     },*/
 
-    /*methods:{
-        newPosition(){
+    methods:{
+        setPosition(){
             this.$refs.RaisedSaint.style.setProperty('left', `calc(${this.position.x} * 32px)`)
             this.$refs.RaisedSaint.style.setProperty('top', `calc(${this.position.y} * 32px)`)
         }
-    },*/
+    },
 
     mounted(){
-        this.newPosition()
+        this.setPosition()
     }
 }

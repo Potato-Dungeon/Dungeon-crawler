@@ -85,8 +85,6 @@
 
 #saintSkull {
     position: absolute;
-    left: calc(6 * 32px);
-    top: calc(3 * 32px);
     width: 32px;
     height: 32px;
     background-image: url('/assets/RaisedSaint.png');
