@@ -19,12 +19,13 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
+            
             <coin 
                 v-for="(coin, i) of coins"
                 v-bind:position="coin"
                 v-bind:key="'coin' + i + coin.x + coin.y"
             ></coin>
-            <player v-bind:position="playerPosition"></player>
+            <player v-bind:position="playerPosition" ref="player"></player>
         </coin>
         </div>
     </div>
@@ -76,6 +77,7 @@ export default {
             let newPos = {x: this.playerPosition.x, y: this.playerPosition.y - 1}
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
                 return; //If player meets a wall
+                //this.checkForItem(newPositionX, newPositionY)
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 console.log("picked up coin!")
@@ -106,6 +108,11 @@ export default {
             }
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
+        checkForItem(x, y){
+            if(this.objectGrid[y][x] == 'c'){
+               this.$refs.player.addItem();
+        }
+    },
 
         nextLevel(){
             this.level++;
@@ -199,5 +206,3 @@ export default {
         document.documentElement.style.setProperty('--map_size', this.grid[0].length) //sends --size of map variable to css
     }
 }
-
-
