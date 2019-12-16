@@ -17,7 +17,7 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player v-bind:position="playerPosition"></player>
+            <player v-bind:position="playerPosition" ref="player"></player>
         </div>
     </div>
     </div>
@@ -116,6 +116,7 @@ export default {
             let newPositionY = this.playerPosition.y-1;
             console.log("moveUp");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+                //this.checkForItem(newPositionX, newPositionY)
                 this.playerPosition.y = newPositionY;  
                 console.log(newPositionX, newPositionY)    
             }
@@ -125,6 +126,7 @@ export default {
             let newPositionY = this.playerPosition.y+1;
             console.log("moveDown");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+                //this.checkForItem(newPositionX, newPositionY)
                 this.playerPosition.y = newPositionY;
                 console.log(newPositionX, newPositionY)
             }       
@@ -135,6 +137,7 @@ export default {
             let newPositionX = this.playerPosition.x-1;
             console.log("moveLeft");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+                //this.checkForItem(newPositionX, newPositionY)
                 this.playerPosition.x = newPositionX
                 console.log(newPositionX, newPositionY)
             }
@@ -145,10 +148,16 @@ export default {
             let newPositionY = this.playerPosition.y;
             console.log("moveRight");
             if(this.objectGrid[newPositionY][newPositionX] !== 'W'){
+                //this.checkForItem(newPositionX, newPositionY)
                 this.playerPosition.x = newPositionX;
                 console.log(newPositionX, newPositionY)
             }
         }, 
+        checkForItem(x, y){
+            if(this.objectGrid[y][x] == 'c'){
+               this.$refs.player.addItem();
+        }
+    },
         
     },
     created() {
@@ -211,5 +220,3 @@ export default {
         document.documentElement.style.setProperty('--map_size', map_size) //sends --map_size variable to css
     }
 }
-
-
