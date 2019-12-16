@@ -19,12 +19,13 @@ export default {
                 v-bind:key="'tile' + i + tile.x + tile.y"
                 >
             </tile>
-            <player v-bind:position="playerPosition" ref="player"></player>
+            
             <coin 
                 v-for="(coin, i) of coins"
                 v-bind:position="coin"
                 v-bind:key="'coin' + i + coin.x + coin.y"
             ></coin>
+            <player v-bind:position="playerPosition" ref="player"></player>
         </coin>
         </div>
     </div>

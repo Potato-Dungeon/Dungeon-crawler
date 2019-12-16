@@ -10,9 +10,12 @@ export default{
     </div>
     `,
     data(){
+        return{
             backpack:{
                 coin: 0,
             }
+        }
+           
     },
     watch:{
         position:{
