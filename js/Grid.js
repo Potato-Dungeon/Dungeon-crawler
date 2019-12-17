@@ -222,13 +222,13 @@ export default {
             console.log("picked up coin!")
             this.$refs.player.addItem();
             console.log(this.$refs.player.backpack.coin);
-            let pos = {x: 1, y: 3};
             for (let i = 0; i < this.$refs.myCoins.length; i++){
                 let coin = this.$refs.myCoins[i];
                 if (coin.pos.x == x && coin.pos.y == y){
                     this.coins.splice(i, 1);
                 }
             }
+            let pos = {x: 1, y: 3};
             this.grid[y][x] = ' ';
             this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
