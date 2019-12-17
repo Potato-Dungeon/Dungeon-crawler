@@ -13,6 +13,10 @@ export default {
                 value: 2,
                 x: 0,
                 y: 0
+            },
+            apple:{
+                x: 0,
+                y: 0
             }
         }
     },

@@ -12,13 +12,12 @@ export default {
                 x: this.position.x,
                 y: this.position.y
             },
-            value: 2,
         }
     },
     methods: {
         setPosition() {
-            this.$refs.coin.style.setProperty('left', `calc(${this.position.x} * 32px)`)
-            this.$refs.coin.style.setProperty('top', `calc(${this.position.y} * 32px)`)
+            this.$refs.apple.style.setProperty('left', `calc(${this.position.x} * 32px)`)
+            this.$refs.apple.style.setProperty('top', `calc(${this.position.y} * 32px)`)
         }
     },
     mounted() {
