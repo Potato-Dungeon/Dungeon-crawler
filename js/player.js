@@ -13,6 +13,7 @@ export default{
         return{
             backpack:{
                 coin: 0,
+                apple: 0,
             }
         }
            
