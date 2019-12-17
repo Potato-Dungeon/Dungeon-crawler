@@ -36,26 +36,15 @@ export default{
             //Adds a gradient circle to limit the view of what the player can see
             this.$refs.shadow.style.setProperty('background', `radial-gradient(circle at calc(${this.position.x} * 32px + 16px) calc(${this.position.y} * 32px + 16px), transparent,black 21%)`)
         },
-        addItem(){
+        addCoin(){
             this.backpack.coin +=1;
+        },
+        addApple(){
+            this.backpack.apple +=1;
         }
     },
 
     mounted(){
         this.setPosition()
-    },
-
-    combat(monsterValue){
-        while(monsterHitpoints > 0){
-            console.log(this.hitpoints) //Is "undefined" but gives no undefined error.
-            monsterHitpoints--
-            console.log("Monster lose 1 HP")
-            this.hitpoints--
-            console.log("Player lose 1 HP")
-            if(this.hitpoints == 0){
-                alert("You've been defeated!")
-                location.reload(); //Reloads the page, restarting the game
-            }
-        }
     }
 }
