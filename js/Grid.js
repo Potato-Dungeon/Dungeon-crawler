@@ -91,7 +91,7 @@ export default {
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
-                this.playerDies();
+                this.raisedSaintCombat(newPos.x, newPos.y);
                 return;
                 //If the player meets an enemy
             }
@@ -108,7 +108,7 @@ export default {
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
-                this.playerDies();
+                this.raisedSaintCombat(newPos.x, newPos.y);
                 return;
                 //If the player meets an enemy
             }
@@ -125,7 +125,7 @@ export default {
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
-                this.playerDies();
+                this.raisedSaintCombat(newPos.x, newPos.y);
                 return;
                 //If the player meets an enemy
             }
@@ -141,7 +141,7 @@ export default {
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
-                this.playerDies();
+                this.raisedSaintCombat(newPos.x, newPos.y);
                 return;
                 //If the player meets an enemy
             }
@@ -223,6 +223,7 @@ export default {
             this.$refs.player.addItem();
             console.log(this.$refs.player.backpack.coin);
             for (let i = 0; i < this.$refs.myCoins.length; i++){
+                console.log("Test, test")
                 let coin = this.$refs.myCoins[i];
                 if (coin.pos.x == x && coin.pos.y == y){
                     this.coins.splice(i, 1);
@@ -234,16 +235,41 @@ export default {
         },
 
 
-        playerDies(){
+        /*playerDies(){
             console.log("stepped on a monster")
             if (this.$refs.player.backpack.coin < 5){
                 alert('You died!')
                 console.log("You died!")
+                location.reload();
             }
             else {
                 console.log("You have more than 5 coins, you win!")
             }
 
+        },*/
+
+        raisedSaintCombat(x, y){
+            console.log("Start of combat")
+            if (this.$refs.player.backpack.coin === 0){
+                alert('You died, you need atleast one coin to fight this enemy!');
+                console.log("You died from being poor!");
+                location.reload();
+            }
+            else if(this.$refs.player.backpack.coin >= 1){
+                console.log("Before combat, you have " + this.$refs.player.backpack.coin + " coins.");
+                let pos = {x: 1, y: 3};
+                for (let i = 0; i < this.$refs.myMonsters.length; i++){
+                    let monst = this.$refs.myMonsters[i];
+                    if (monst.pos.x == x && monst.pos.y == y){
+                        this.$refs.player.backpack.coin -= this.$refs.myMonsters[i].damage;
+                        //To get the entity monster (in the array myMonsters) damage
+                        console.log("After combat, you have " + this.$refs.player.backpack.coin + " coins.");
+                        this.monsters.splice(i, 1);
+                    }
+                }
+                this.grid[y][x] = ' ';
+                this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
+            }
         }
     },
     created() {
