@@ -81,7 +81,6 @@ export default {
                     walk: 'assets/sounds/skeletonwalk.wav',
                     coinPickup: 'assets/sounds/goldpickup.wav',
                     questPickup: 'assets/sounds/applebite.wav',
-                    wall:'',
                     death: 'assets/sounds/playerdeath.wav'
                 },
                 enemy:{
@@ -117,7 +116,6 @@ export default {
                 return; //If player meets a wall
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
-                this.playSound('coinPickup');
                 this.pickedUpCoin(newPos.x, newPos.y);
                  //If player meets a coin
             }
@@ -146,7 +144,6 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpCoin(newPos.x, newPos.y);
-                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'a')){
@@ -174,7 +171,6 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpCoin(newPos.x, newPos.y);
-                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'a')){
@@ -201,7 +197,6 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpCoin(newPos.x, newPos.y);
-                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'a')){
@@ -315,22 +310,22 @@ export default {
                     if (this.isEntity){
                         //Check for each type of entity
                         if (this.entityType.coin){
-                            console.log("Spawning coin")
+                            //console.log("Spawning coin")
                             let position = {x: col, y: row};
                             this.coins.push(position);
                         }
                         else if(this.entityType.apple){
-                            console.log("Spawning apple")
+                            //console.log("Spawning apple")
                             let position = {x: col, y: row};
                             this.apples.push(position);
                         }
                         else if(this.entityType.monster){
-                            console.log("Spawning monster")
+                            //console.log("Spawning monster")
                             let position = {x: col, y: row};
                             this.monsters.push(position);
                         }
                         else if(this.entityType.priestBoss){
-                            console.log("Spawning the Priest Boss")
+                            //console.log("Spawning the Priest Boss")
                             let position = {x: col, y: row};
                             this.priestBosses.push(position);
                         }
@@ -347,13 +342,15 @@ export default {
 
         pickedUpCoin(x, y){
             this.$refs.player.addCoin();
-            console.log(this.$refs.player.backpack.coin);
+            console.log("The player has " +this.$refs.player.backpack.coin + " coins in their backpack");
             for (let i = 0; i < this.$refs.myCoins.length; i++){
                 let coin = this.$refs.myCoins[i];
                 if (coin.pos.x == x && coin.pos.y == y){
                     this.coins.splice(i, 1);
                 }
             }
+            this.playSound('coinPickup')
+            this.grid[y][x] = ' ';
         },
 
         pickedUpApple(x, y){
@@ -361,49 +358,53 @@ export default {
             this.$refs.player.addApple();
             console.log(this.$refs.player.backpack.apple);
             for (let i = 0; i < this.$refs.myApple.length; i++){
-                console.log("Test, test")
                 let apple = this.$refs.myApple[i];
                 if (apple.pos.x == x && apple.pos.y == y){
                     this.apples.splice(i, 1);
                 }
             }
+            this.playSound('questPickup')
+            this.grid[y][x] = ' ';
         },
 
         raisedSaintCombat(x, y){
-        console.log("Start of combat")
-            console.log("Before combat, you have " + this.$refs.player.backpack.coin + " coins.");
             for (let i = 0; i < this.$refs.myMonsters.length; i++){
                 let monst = this.$refs.myMonsters[i];
                 if (monst.pos.x == x && monst.pos.y == y){
                     this.$refs.player.backpack.coin -= this.$refs.myMonsters[i].damage;
                     //To get the entity monster (in the array myMonsters) damage
                     if (this.$refs.player.backpack.coin < 0){ //If player backpack coin is less than 0 after a combat
+                        this.playSound('playerDeath')
                         alert('You died, you need atleast two coins to fight this enemy!');
+                        console.log("You died from being poor!");
                         location.reload();
                     }
                     console.log("After combat, you have " + this.$refs.player.backpack.coin + " coins.");
+                    this.playSound('enemyDeath')
                     this.monsters.splice(i, 1);
                 }
             }
+            this.grid[y][x] = ' ';
         },
-                        console.log("You died from being poor!");
         bossCombat(x, y){
             console.log("Start of the bossbattle")
             if (this.$refs.player.backpack.apple === 0){
-                alert('You died, you need the Apple of Knowledge to fight this enemy!');
+                this.playSound('bossWin')
+                alert('You died, you need the Apple of Knowledge to defeat the evil priest!');
                 console.log("You died because you lacked the apple");
                 location.reload();
             }
             else if(this.$refs.player.backpack.apple >= 1){
-                console.log("This should start if you have the apple");
+                console.log("You used the apple of Knowledge to defeat the evil priest!");
                 let pos = {x: 1, y: 3};
                 for (let i = 0; i < this.$refs.myBoss.length; i++){
                     let boss = this.$refs.myBoss[i];
                     if (boss.pos.x == x && boss.pos.y == y){
                         this.$refs.player.backpack.apple -= this.$refs.myBoss[i].damage;
                         //To get the entity boss (in the array myBosses) damage
-                        console.log("Bossfight should be over?");
                         this.priestBosses.splice(i, 1);
+                        this.playSound('bossDeath')
+                        alert("You won!")
                     }
                 }
                 this.grid[y][x] = ' ';
