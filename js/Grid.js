@@ -49,16 +49,25 @@ export default {
                 x: 0,
                 y: 0
             },
-            monsterPosition:{
-                x: 12,
-                y: 8
-            },
             coins: [],
             monsters: [],
             isEntity: false,
             entityType:{
                 coin: false,
                 monster: false
+            },
+            audio:{ //All audiofiles goes here in this hierarchy
+                player:{
+                    walk: 'assets/sounds/skeletonwalk.wav',
+                    coinPickup: 'assets/sounds/goldpickup.wav',
+                    questPickup: '',
+                    wall:'',
+                    death: ''
+                },
+                enemy:{
+                    death: '',
+                    deathBoss: ''
+                }
             }
         }
     },
@@ -88,6 +97,7 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
+                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
@@ -95,6 +105,7 @@ export default {
                 return;
                 //If the player meets an enemy
             }
+            this.playSound('walk');
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false
         },
 
@@ -105,6 +116,7 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
+                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
@@ -112,6 +124,8 @@ export default {
                 return;
                 //If the player meets an enemy
             }
+
+            this.playSound('walk');
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false     
         },
 
@@ -122,6 +136,7 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
+                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
@@ -129,6 +144,8 @@ export default {
                 return;
                 //If the player meets an enemy
             }
+
+            this.playSound('walk');
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
         moveRight(){
@@ -138,6 +155,7 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
+                this.playSound('coinPickup');
                  //If player meets a coin
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
@@ -145,7 +163,26 @@ export default {
                 return;
                 //If the player meets an enemy
             }
+
+            this.playSound('walk');
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
+        },
+
+        //Handling all sounds
+        playSound(soundName){
+            let file;
+            switch(soundName){
+                case "walk":
+                    file = this.audio.player.walk;
+                    break;
+                case "coinPickup":
+                    file = this.audio.player.coinPickup;
+                    break;
+                default: 
+                console.log(`ERROR: Expected valid variable, got '${file}' or none`)
+            }
+            let audio = new Audio(file);
+            audio.play();
         },
 
         nextLevel(){
@@ -156,6 +193,7 @@ export default {
             this.updateTiles();
         },
 
+        //Draws and check grid for what symbol and if entity or not.
         updateTiles() {
             for(let row = 0; row < this.grid.length; row++){
                 this.tiles[row] = [];
@@ -218,39 +256,21 @@ export default {
             }
         },
 
+        //Pickup item function
         pickedUpItem(x, y){
-            console.log("picked up coin!")
             this.$refs.player.addItem();
-            console.log(this.$refs.player.backpack.coin);
+            console.log("Current coins in backpack: " + this.$refs.player.backpack.coin);
             for (let i = 0; i < this.$refs.myCoins.length; i++){
-                console.log("Test, test")
                 let coin = this.$refs.myCoins[i];
                 if (coin.pos.x == x && coin.pos.y == y){
                     this.coins.splice(i, 1);
                 }
             }
-            let pos = {x: 1, y: 3};
-            this.grid[y][x] = ' ';
-            this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
 
-
-        /*playerDies(){
-            console.log("stepped on a monster")
-            if (this.$refs.player.backpack.coin < 5){
-                alert('You died!')
-                console.log("You died!")
-                location.reload();
-            }
-            else {
-                console.log("You have more than 5 coins, you win!")
-            }
-
-        },*/
-
+        //raisedSaintCombat
         raisedSaintCombat(x, y){
-            console.log("Start of combat")
-            if (this.$refs.player.backpack.coin === 0){
+            if (this.$refs.player.backpack.coin === 0){ //If player has 0 coins and step on an enemy
                 alert('You died, you need atleast one coin to fight this enemy!');
                 console.log("You died from being poor!");
                 location.reload();
@@ -273,6 +293,7 @@ export default {
         }
     },
     created() {
+        //Runs when program start
         this.updateTiles();
     },
     mounted() {
@@ -280,31 +301,24 @@ export default {
         window.addEventListener('keyup', (e) => {
                 switch(e.keyCode){
                     case 37: //Left Arrowkey
-                        this.moveLeft();
-                        break;
-                    case 38: //Up Arrowkey
-                        this.moveUp();
-                        break;
-                    case 39: //Right Arrowkey
-                        this.moveRight();
-                        break;
-                    case 40: //Down Arrowkey
-                        this.moveDown();
-                        break;
                     case 65: //A
                         this.moveLeft();
                         break;
+                    case 38: //Up Arrowkey
                     case 87: //W
                         this.moveUp();
                         break;
+                    case 39: //Right Arrowkey
                     case 68: //D
                         this.moveRight();
                         break;
+                    case 40: //Down Arrowkey
                     case 83: //S
                         this.moveDown();
                         break;
                 }
             }),
+    
         document.documentElement.style.setProperty('--map_size', this.grid[0].length) //sends --size of map variable to css
     }
 }
