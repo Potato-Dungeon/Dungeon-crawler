@@ -1,3 +1,4 @@
 {
-    "liveServer.settings.port": 5502
+    "liveshare.guestApprovalRequired": true,
+    "liveServer.settings.port": 5501
 }

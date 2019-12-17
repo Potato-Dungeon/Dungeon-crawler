@@ -5,9 +5,6 @@
     width: var(--tile_size);
     height: var(--tile_size);
     background-size: 100% 100%;
-}
-
-.sprite {
     background-repeat: no-repeat;
 }
 
@@ -54,36 +51,42 @@
 
 #pageBorder{
     border: 8px solid black;
-    border-radius: 10px;;
+    border-radius: 10px;
 }
 
 .shadow-overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at calc(5 * 32px) calc(5 * 32px), transparent,black, black, black, black);
     transition: 300ms;
+}
+
+.sprite {
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
 }
 
 #player {
     position: absolute;
-    left: calc(5 * 32px);
-    top: calc(2 * 32px);
     width: 32px;
     height: 32px;
     background-image: url('/assets/main-character.png');
     background-size: cover;
-    transition: 150ms;
+    transition: 300ms;
+}
 
-    image-rendering: crisp-edges;
+#coin {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-image: url('/assets/silvercoin.png');
+    background-size: cover;
 }
 
 #saintSkull {
     position: absolute;
-    left: calc(6 * 32px);
-    top: calc(3 * 32px);
     width: 32px;
     height: 32px;
-    background-image: url('/assets/RaisedSaint.png');
+    background-image: url('/assets/RaisedSaintv2.png');
     background-size: cover;
 }

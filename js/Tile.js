@@ -4,7 +4,7 @@ export default {
     //v-bind:class checks for object name and uses tileset according to object
     template: `
         <div ref="tile" 
-        class="tile sprite" 
+        class="tile" 
         @click="logPosition"
         v-bind:class="{ 
              wall: object === 'Wall',
