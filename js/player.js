@@ -41,10 +41,10 @@ export default{
     },
 
     mounted(){
-        this.newPosition()
+        this.setPosition()
     },
 
-    combat(monsterHitpoints, monsterDamageOutput){
+    combat(monsterValue){
         while(monsterHitpoints > 0){
             console.log(this.hitpoints) //Is "undefined" but gives no undefined error.
             monsterHitpoints--
