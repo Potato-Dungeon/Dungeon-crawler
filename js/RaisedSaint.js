@@ -7,6 +7,10 @@ export default{
     },
     data(){
         return{
+            pos: {
+                x: 0,
+                y: 0
+            },
             hitpoints: 1,
             damage: 1,
         } 
