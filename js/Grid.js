@@ -28,7 +28,13 @@ export default {
                 v-bind:key="'coin' + i + coin.x + coin.y"
                 ref="myCoins"
             ></coin>
-            <RaisedSaint v-bind:position="monsterPosition" ref="monster"></RaisedSaint>
+            <RaisedSaint 
+                v-for="(monster, i) of monsters"
+                v-bind:position="monster"
+                v-bind:key="'monster' + i + monster.x + monster.y"
+                ref="myMonsters"
+            ></RaisedSaint>
+            <!--<RaisedSaint v-bind:position="monsterPosition" ref="monster"></RaisedSaint>-->
             <player v-bind:position="playerPosition" ref="player"></player>
         </div>
     </div>
@@ -48,7 +54,12 @@ export default {
                 y: 8
             },
             coins: [],
-            isEntity: false
+            monsters: [],
+            isEntity: false,
+            entityType:{
+                coin: false,
+                monster: false
+            }
         }
     },
     computed:{
@@ -68,22 +79,21 @@ export default {
         Here it first check for if the new Position is a 'W' for wall and stop if true
 
         If neither of the conditions get triggered, set playerPosition to newPos, etc move the character
+        Write 'return' at the end of an if case if you don't want the player to move over there
         */
         moveUp(){
             let newPos = {x: this.playerPosition.x, y: this.playerPosition.y - 1}
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'W')){
                 return; //If player meets a wall
-                //this.checkForItem(newPos.x, newPos.y)
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
                  //If player meets a coin
             }
-            if ((this.playerPosition.x === this.monsterPosition.x)
-                && (this.playerPosition.y - 1 === this.monsterPosition.y)){
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
                 this.playerDies();
-                console.log("Player dies")
-                return; //If player meets a coin
+                return;
+                //If the player meets an enemy
             }
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false
         },
@@ -97,11 +107,10 @@ export default {
                 this.pickedUpItem(newPos.x, newPos.y);
                  //If player meets a coin
             }
-            if ((this.playerPosition.x === this.monsterPosition.x)
-                && (this.playerPosition.y + 1 === this.monsterPosition.y)){
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
                 this.playerDies();
-                console.log("Player dies")
-                return; //If player meets a coin
+                return;
+                //If the player meets an enemy
             }
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false     
         },
@@ -115,11 +124,10 @@ export default {
                 this.pickedUpItem(newPos.x, newPos.y);
                  //If player meets a coin
             }
-            if ((this.playerPosition.x - 1 === this.monsterPosition.x)
-                && (this.playerPosition.y === this.monsterPosition.y)){
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
                 this.playerDies();
-                console.log("Player dies")
-                return; //If player meets a coin
+                return;
+                //If the player meets an enemy
             }
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
@@ -132,11 +140,10 @@ export default {
                 this.pickedUpItem(newPos.x, newPos.y);
                  //If player meets a coin
             }
-            if ((this.playerPosition.x + 1 === this.monsterPosition.x)
-                && (this.playerPosition.y === this.monsterPosition.y)){
+            if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'S')){
                 this.playerDies();
-                console.log("Player dies")
-                return; //If player meets a coin
+                return;
+                //If the player meets an enemy
             }
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
@@ -167,7 +174,9 @@ export default {
                             objectId = 'Floor'
                             break;
                         case "S":
-                            this.grid[row][col] = ' ';
+                            //this.grid[row][col] = ' ';
+                            this.isEntity = true;
+                            this.entityType.monster = true;
                             break;
                         case "X":
                             tileId = 16;
@@ -178,6 +187,7 @@ export default {
                         case "c":
                             //this.grid[row][col] = ' '; //TODO Ändra så att det inte funkar såhär
                             this.isEntity = true; //Om man har ett system som detta, kan programmet ej läsa av coins
+                            this.entityType.coin = true;
                             break;
                     }
                     let properties = {
@@ -188,8 +198,20 @@ export default {
                     };
                     this.tiles[row].push(properties); //Pushes properties down to child element "Tile"
                     if (this.isEntity){
-                        let position = {x: col, y: row};
-                        this.coins.push(position);
+                        //Check for each type of entity
+                        if (this.entityType.coin){
+                            console.log("Spawning coin")
+                            let position = {x: col, y: row};
+                            this.coins.push(position);
+                        }
+                        else if(this.entityType.monster){
+                            console.log("Spawning monster")
+                            let position = {x: col, y: row};
+                            this.monsters.push(position);
+                        }
+
+                        this.entityType.coin = false;
+                        this.entityType.monster = false;
                         this.isEntity = false;
                     }
                 }
@@ -208,12 +230,19 @@ export default {
                 }
             }
             this.grid[y][x] = ' ';
-            this.$refs.myTiles[y*15+x].changeTexture(pos);
+            this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
+
 
         playerDies(){
             console.log("stepped on a monster")
-            alert('You died!')
+            if (this.$refs.player.backpack.coin < 5){
+                alert('You died!')
+                console.log("You died!")
+            }
+            else {
+                console.log("You have more than 5 coins, you win!")
+            }
 
         }
     },
