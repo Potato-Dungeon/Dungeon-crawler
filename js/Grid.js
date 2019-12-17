@@ -60,13 +60,14 @@ export default {
                 player:{
                     walk: 'assets/sounds/skeletonwalk.wav',
                     coinPickup: 'assets/sounds/goldpickup.wav',
-                    questPickup: '',
+                    questPickup: 'assets/sounds/applebite.wav',
                     wall:'',
-                    death: ''
+                    death: 'assets/sounds/playerdeath.wav'
                 },
                 enemy:{
-                    death: '',
-                    deathBoss: ''
+                    death: 'assets/sounds/enemydeath.wav',
+                    deathBoss: 'assets/sounds/bossdeath.wav',
+                    bossWin: 'assets/sounds/bosswin.wav'
                 }
             }
         }
@@ -177,6 +178,21 @@ export default {
                     break;
                 case "coinPickup":
                     file = this.audio.player.coinPickup;
+                    break;
+                case "questPickup":
+                    file = this.audio.player.questPickup;
+                    break;
+                case "playerDeath":
+                    file = this.audio.player.death;
+                    break;
+                case "enemyDeath":
+                    file = this.audio.enemy.death;
+                    break;
+                case "bossDeath":
+                    file = this.audio.enemy.deathBoss;
+                    break;
+                case "bossWin":
+                    file = this.audio.enemy.bossWin;
                     break;
                 default: 
                 console.log(`ERROR: Expected valid variable, got '${file}' or none`)
