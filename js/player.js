@@ -38,10 +38,11 @@ export default{
         },
         addCoin(){
             this.backpack.coin +=1;
+            this.$emit('countCoin', this.backpack.coin)  
         },
         addApple(){
             this.backpack.apple +=1;
-            this.$emit('countCoin', this.backpack.coin)  
+            
         }
     },
 

@@ -19,7 +19,7 @@ export default {
     template: `
     <div class="wrapper">
         <div id="points">
-        <p id="displayPoints">{{coin}} Coins
+        <p id="displayPoints">{{coin}} Coins {{ apple }} Apple
          <div class="grid-layout">
             <tile 
                 v-for="(tile, i) of flatMap"
@@ -53,7 +53,7 @@ export default {
                 ref="myBoss"
             ></PriestBoss>
             <!--<RaisedSaint v-bind:position="monsterPosition" ref="monster"></RaisedSaint>-->
-            <player v-bind:position="playerPosition" ref="player" @countCoin="updatedCoin"></player>
+            <player v-bind:position="playerPosition" ref="player"></player>
         </div>
     </div>
     </p>
@@ -69,6 +69,8 @@ export default {
                 x: 0,
                 y: 0
             },
+            coin: 0,
+            apple: 0,
             coins: [],
             apples: [],
             monsters: [],
@@ -93,7 +95,6 @@ export default {
                     bossWin: 'assets/sounds/bosswin.wav'
                 }
             }
-            coin: 0,
         }
     },
     computed:{
@@ -354,7 +355,8 @@ export default {
                     this.coins.splice(i, 1);
                 }
             }
-            this.playSound('coinPickup')
+            this.updatedCoin(this.$refs.player.backpack.coin);
+            this.playSound('coinPickup');
             this.grid[y][x] = ' ';
         },
 
@@ -368,6 +370,7 @@ export default {
                     this.apples.splice(i, 1);
                 }
             }
+            this.updatedApple(this.$refs.player.backpack.apple);
             this.playSound('questPickup')
             this.grid[y][x] = ' ';
         },
@@ -385,6 +388,7 @@ export default {
                         location.reload();
                     }
                     console.log("After combat, you have " + this.$refs.player.backpack.coin + " coins.");
+                    this.updatedCoin(this.$refs.player.backpack.coin);
                     this.playSound('enemyDeath')
                     this.monsters.splice(i, 1);
                 }
@@ -408,15 +412,20 @@ export default {
                         this.$refs.player.backpack.apple -= this.$refs.myBoss[i].damage;
                         //To get the entity boss (in the array myBosses) damage
                         this.priestBosses.splice(i, 1);
-                        this.playSound('bossDeath')
-                        alert("You won!")
+                        this.updatedApple(this.$refs.player.backpack.apple);
+                        this.playSound('bossDeath');
+                        alert("You won!");
                     }
                 }
                 this.grid[y][x] = ' ';
                 this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
             }
+        },
         updatedCoin(coins){
             this.coin = coins
+        },
+        updatedApple(apple){
+            this.apple = apple
         }
     },
     created() {
