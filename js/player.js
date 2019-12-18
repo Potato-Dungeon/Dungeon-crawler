@@ -5,7 +5,7 @@ export default{
     },
     template:`
     <div ref="shadow" class="shadow-overlay">
-        <div ref="player" id="player" class="sprite">
+      <div ref="player" id="player" class="sprite">
         </div>
     </div>
     `,
@@ -13,7 +13,8 @@ export default{
         return{
             backpack:{
                 coin: 0,
-            }
+            },
+            
         }
            
     },
@@ -22,6 +23,7 @@ export default{
             deep: true,
             handler(){
                 this.newPosition()
+                
             }
         }
     },
@@ -36,7 +38,11 @@ export default{
             this.$refs.shadow.style.setProperty('background', `radial-gradient(circle at calc(${this.position.x} * 32px + 16px) calc(${this.position.y} * 32px + 16px), transparent,black 21%)`)
         },
         addItem(){
-            this.backpack.coin +=1;
+            this.backpack.coin +=1 
+            this.$emit('countCoin', this.backpack.coin)  
+        },
+        updateCoins(){
+            
         }
     },
 

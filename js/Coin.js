@@ -10,7 +10,7 @@ export default {
         return{
             pos:{
                 x: this.position.x,
-                y: this.position.y
+                y: this.position.y,
             },
             value: 2,
         }

@@ -14,7 +14,9 @@ export default {
     },
     template: `
     <div class="wrapper">
-        <div class="grid-layout">
+        <div id="points">
+        <p id="displayPoints">{{coin}} Coins
+         <div class="grid-layout">
             <tile 
                 v-for="(tile, i) of flatMap"
                 v-bind:properties="tile"
@@ -29,8 +31,10 @@ export default {
                 ref="myCoins"
             ></coin>
             <RaisedSaint v-bind:position="monsterPosition" ref="monster"></RaisedSaint>
-            <player v-bind:position="playerPosition" ref="player"></player>
+            <player v-bind:position="playerPosition" ref="player" @countCoin="updatedCoin"></player>
         </div>
+    </div>
+    </p>
     </div>
     </div>
     `,
@@ -47,6 +51,7 @@ export default {
                 x: 12,
                 y: 8
             },
+            coin: 0,
             coins: [],
             isEntity: false
         }
@@ -95,6 +100,7 @@ export default {
             }
             if (collidesWithSymbol(this.grid[newPos.y][newPos.x], 'c')){
                 this.pickedUpItem(newPos.x, newPos.y);
+                
                  //If player meets a coin
             }
             if ((this.playerPosition.x === this.monsterPosition.x)
@@ -212,9 +218,16 @@ export default {
         },
 
         playerDies(){
-            console.log("stepped on a monster")
-            alert('You died!')
+            console.log("You ran into a monster and got slain")
+            alert('You ran into a monster and got slain!')
+        },
 
+        playerWins(){
+            console.log("You fought the end boss")
+            alert('Congratulations! you earned enough coins to defeat the Potatoe Dungeon.')
+        },
+        updatedCoin(coins){
+            this.coin = coins
         }
     },
     created() {

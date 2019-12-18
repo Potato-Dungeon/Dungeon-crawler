@@ -39,7 +39,7 @@
 #title{
     font-size: 40px;
     color: rgb(236, 6, 18);
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.99);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     text-align: center;
     padding: 15px;
@@ -89,4 +89,29 @@
     height: 32px;
     background-image: url('/assets/RaisedSaint.png');
     background-size: cover;
+}
+
+#points{
+    background-color: rgba(0, 0, 0, 0.99);
+    font-size: 30px;
+    font-family: fantasy;
+    color: rgb(236, 6, 18);
+    z-index: 3;
+}
+
+#displayPoints{
+    margin: 0;
+    padding: 0;
+    left: 90px;
+    position: relative;   
+}
+
+/* Trying to fix a coin to be shown next to the counter - not working at all atm. */
+#coinDisplay {
+    display: flex;
+    background-image: url('/assets/silvercoin.png');
+    background-size: cover;
+    z-index: 3;
+    top: 100px;
+   
 }
