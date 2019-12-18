@@ -26,11 +26,11 @@ export default {
         logPosition() {
             console.log(this.properties.x, this.properties.y, this.properties.tileId, this.properties.object);
         },
-        setTileTexture() { //This is going to be huge but... Eh. It does what it does
+        setTileTexture(id) { //This is going to be huge but... Eh. It does what it does
             let pos;
             switch(this.object){
                 case "Wall": //40 cases for Walltiles
-                    switch(this.tileId){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
+                    switch(id){ //Working on a system to read from tileset and set position in the image to be shown as a tile Image.
                         case 0: //transparent
                         pos = {x: 0, y: 0};
                         break;
@@ -179,7 +179,7 @@ export default {
                 break;
                 
                 case "Floor": //17 cases for Floortiles
-                    switch(this.tileId){
+                    switch(id){
                         case 0: //transparent
                         pos = {x: 0, y: 0};
                         break;
@@ -250,6 +250,6 @@ export default {
         document.documentElement.style.setProperty('--tile_size', 32 + 'px'); //Sets a "--size" variable to be used in css style.css
     },
     mounted() {
-        this.setTileTexture()
+        this.setTileTexture(this.tileId)
     }
 }

@@ -65,10 +65,6 @@ export default {
                 x: 0,
                 y: 0
             },
-            monsterPosition:{
-                x: 12,
-                y: 8
-            },
             coins: [],
             apples: [],
             monsters: [],
@@ -79,6 +75,19 @@ export default {
                 apple: false,
                 monster: false,
                 priestBoss: false,
+            },
+            audio:{ //All audiofiles goes here in this hierarchy
+                player:{
+                    walk: 'assets/sounds/skeletonwalk.wav',
+                    coinPickup: 'assets/sounds/goldpickup.wav',
+                    questPickup: 'assets/sounds/applebite.wav',
+                    death: 'assets/sounds/playerdeath.wav'
+                },
+                enemy:{
+                    death: 'assets/sounds/enemydeath.wav',
+                    deathBoss: 'assets/sounds/bossdeath.wav',
+                    bossWin: 'assets/sounds/bosswin.wav'
+                }
             }
         }
     },
@@ -124,6 +133,7 @@ export default {
                 return;
                 //If the player meets the boss
             }
+            this.playSound('walk');
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false
         },
 
@@ -150,6 +160,7 @@ export default {
                 return;
                 //If the player meets the boss
             }
+            this.playSound('walk');
             this.playerPosition.y = newPos.y; //If collidesWithSymbol equals false     
         },
 
@@ -176,6 +187,7 @@ export default {
                 return;
                 //If the player meets the boss
             }
+            this.playSound('walk');
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
         },
         moveRight(){
@@ -201,7 +213,40 @@ export default {
                 return;
                 //If the player meets the boss
             }
+            this.playSound('walk');
             this.playerPosition.x = newPos.x; //If collidesWithSymbol equals false
+        },
+
+        //Handling all sounds
+        playSound(soundName){
+            let file;
+            switch(soundName){
+                case "walk":
+                    file = this.audio.player.walk;
+                    break;
+                case "coinPickup":
+                    file = this.audio.player.coinPickup;
+                    break;
+                case "questPickup":
+                    file = this.audio.player.questPickup;
+                    break;
+                case "playerDeath":
+                    file = this.audio.player.death;
+                    break;
+                case "enemyDeath":
+                    file = this.audio.enemy.death;
+                    break;
+                case "bossDeath":
+                    file = this.audio.enemy.deathBoss;
+                    break;
+                case "bossWin":
+                    file = this.audio.enemy.bossWin;
+                    break;
+                default: 
+                console.log(`ERROR: Expected valid variable, got '${file}' or none`)
+            }
+            let audio = new Audio(file);
+            audio.play();
         },
 
         nextLevel(){
@@ -212,6 +257,7 @@ export default {
             this.updateTiles();
         },
 
+        //Draws and check grid for what symbol and if entity or not.
         updateTiles() {
             for(let row = 0; row < this.grid.length; row++){
                 this.tiles[row] = [];
@@ -264,22 +310,22 @@ export default {
                     if (this.isEntity){
                         //Check for each type of entity
                         if (this.entityType.coin){
-                            console.log("Spawning coin")
+                            //console.log("Spawning coin")
                             let position = {x: col, y: row};
                             this.coins.push(position);
                         }
                         else if(this.entityType.apple){
-                            console.log("Spawning apple")
+                            //console.log("Spawning apple")
                             let position = {x: col, y: row};
                             this.apples.push(position);
                         }
                         else if(this.entityType.monster){
-                            console.log("Spawning monster")
+                            //console.log("Spawning monster")
                             let position = {x: col, y: row};
                             this.monsters.push(position);
                         }
                         else if(this.entityType.priestBoss){
-                            console.log("Spawning the Priest Boss")
+                            //console.log("Spawning the Priest Boss")
                             let position = {x: col, y: row};
                             this.priestBosses.push(position);
                         }
@@ -295,75 +341,70 @@ export default {
         },
 
         pickedUpCoin(x, y){
-            console.log("picked up coin!")
             this.$refs.player.addCoin();
-            console.log(this.$refs.player.backpack.coin);
-            let pos = {x: 1, y: 3};
+            console.log("The player has " +this.$refs.player.backpack.coin + " coins in their backpack");
             for (let i = 0; i < this.$refs.myCoins.length; i++){
-                console.log("Test, test")
                 let coin = this.$refs.myCoins[i];
                 if (coin.pos.x == x && coin.pos.y == y){
                     this.coins.splice(i, 1);
                 }
             }
+            this.playSound('coinPickup')
             this.grid[y][x] = ' ';
-            this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
 
         pickedUpApple(x, y){
             console.log("You picked up the apple!")
             this.$refs.player.addApple();
             console.log(this.$refs.player.backpack.apple);
-            let pos = {x: 1, y: 3};
             for (let i = 0; i < this.$refs.myApple.length; i++){
-                console.log("Test, test")
                 let apple = this.$refs.myApple[i];
                 if (apple.pos.x == x && apple.pos.y == y){
                     this.apples.splice(i, 1);
                 }
             }
+            this.playSound('questPickup')
             this.grid[y][x] = ' ';
-            this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
 
         raisedSaintCombat(x, y){
-        console.log("Start of combat")
-            console.log("Before combat, you have " + this.$refs.player.backpack.coin + " coins.");
-            let pos = {x: 1, y: 3};
             for (let i = 0; i < this.$refs.myMonsters.length; i++){
                 let monst = this.$refs.myMonsters[i];
                 if (monst.pos.x == x && monst.pos.y == y){
                     this.$refs.player.backpack.coin -= this.$refs.myMonsters[i].damage;
                     //To get the entity monster (in the array myMonsters) damage
                     if (this.$refs.player.backpack.coin < 0){ //If player backpack coin is less than 0 after a combat
+                        this.playSound('playerDeath')
                         alert('You died, you need atleast two coins to fight this enemy!');
                         console.log("You died from being poor!");
                         location.reload();
                     }
                     console.log("After combat, you have " + this.$refs.player.backpack.coin + " coins.");
+                    this.playSound('enemyDeath')
                     this.monsters.splice(i, 1);
                 }
             }
             this.grid[y][x] = ' ';
-            this.$refs.myTiles[y*this.grid[0].length+x].changeTexture(pos);
         },
         bossCombat(x, y){
             console.log("Start of the bossbattle")
             if (this.$refs.player.backpack.apple === 0){
-                alert('You died, you need the Apple of Knowledge to fight this enemy!');
+                this.playSound('bossWin')
+                alert('You died, you need the Apple of Knowledge to defeat the evil priest!');
                 console.log("You died because you lacked the apple");
                 location.reload();
             }
             else if(this.$refs.player.backpack.apple >= 1){
-                console.log("This should start if you have the apple");
+                console.log("You used the apple of Knowledge to defeat the evil priest!");
                 let pos = {x: 1, y: 3};
                 for (let i = 0; i < this.$refs.myBoss.length; i++){
                     let boss = this.$refs.myBoss[i];
                     if (boss.pos.x == x && boss.pos.y == y){
                         this.$refs.player.backpack.apple -= this.$refs.myBoss[i].damage;
                         //To get the entity boss (in the array myBosses) damage
-                        console.log("Bossfight should be over?");
                         this.priestBosses.splice(i, 1);
+                        this.playSound('bossDeath')
+                        alert("You won!")
                     }
                 }
                 this.grid[y][x] = ' ';
@@ -372,6 +413,7 @@ export default {
         }
     },
     created() {
+        //Runs when program start
         this.updateTiles();
     },
     mounted() {
@@ -379,31 +421,24 @@ export default {
         window.addEventListener('keyup', (e) => {
                 switch(e.keyCode){
                     case 37: //Left Arrowkey
-                        this.moveLeft();
-                        break;
-                    case 38: //Up Arrowkey
-                        this.moveUp();
-                        break;
-                    case 39: //Right Arrowkey
-                        this.moveRight();
-                        break;
-                    case 40: //Down Arrowkey
-                        this.moveDown();
-                        break;
                     case 65: //A
                         this.moveLeft();
                         break;
+                    case 38: //Up Arrowkey
                     case 87: //W
                         this.moveUp();
                         break;
+                    case 39: //Right Arrowkey
                     case 68: //D
                         this.moveRight();
                         break;
+                    case 40: //Down Arrowkey
                     case 83: //S
                         this.moveDown();
                         break;
                 }
             }),
+    
         document.documentElement.style.setProperty('--map_size', this.grid[0].length) //sends --size of map variable to css
     }
 }
