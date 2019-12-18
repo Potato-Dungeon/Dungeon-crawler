@@ -13,8 +13,8 @@ export default{
         return{
             backpack:{
                 coin: 0,
-            },
-            
+                apple: 0,
+            }
         }
            
     },
@@ -22,14 +22,13 @@ export default{
         position:{
             deep: true,
             handler(){
-                this.newPosition()
-                
+                this.setPosition()
             }
         }
     },
 
     methods:{
-        newPosition(){
+        setPosition(){
             //Updates player's position on the screen
             this.$refs.player.style.setProperty('left', `calc(${this.position.x} * 32px)`)
             this.$refs.player.style.setProperty('top', `calc(${this.position.y} * 32px)`)
@@ -37,16 +36,16 @@ export default{
             //Adds a gradient circle to limit the view of what the player can see
             this.$refs.shadow.style.setProperty('background', `radial-gradient(circle at calc(${this.position.x} * 32px + 16px) calc(${this.position.y} * 32px + 16px), transparent,black 21%)`)
         },
-        addItem(){
-            this.backpack.coin +=1 
-            this.$emit('countCoin', this.backpack.coin)  
+        addCoin(){
+            this.backpack.coin +=1;
         },
-        updateCoins(){
-            
+        addApple(){
+            this.backpack.apple +=1;
+            this.$emit('countCoin', this.backpack.coin)  
         }
     },
 
     mounted(){
-        this.newPosition()
+        this.setPosition()
     }
 }

@@ -7,8 +7,12 @@ export default{
     },
     data(){
         return{
+            pos: {
+                x: this.position.x,
+                y: this.position.y
+            },
             hitpoints: 1,
-            damage: 1,
+            damage: 2,
         } 
     },
     /*watch:{

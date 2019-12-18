@@ -83,11 +83,27 @@
     background-size: cover;
 }
 
+#apple {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-image: url('/assets/apple.png');
+    background-size: cover;
+}
+
 #saintSkull {
     position: absolute;
     width: 32px;
     height: 32px;
-    background-image: url('/assets/RaisedSaint.png');
+    background-image: url('/assets/RaisedSaintv2.png');
+    background-size: cover;
+}
+
+#priestBoss {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-image: url('/assets/bossInquisitor.png');
     background-size: cover;
 }
 
