@@ -5,7 +5,7 @@ export default{
     },
     template:`
     <div ref="shadow" class="shadow-overlay">
-        <div ref="player" id="player" class="sprite">
+      <div ref="player" id="player" class="sprite">
         </div>
     </div>
     `,
@@ -38,9 +38,11 @@ export default{
         },
         addCoin(){
             this.backpack.coin +=1;
+            this.$emit('countCoin', this.backpack.coin)  
         },
         addApple(){
             this.backpack.apple +=1;
+            
         }
     },
 
